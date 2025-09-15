@@ -32,9 +32,9 @@ const Footer = () => {
         {
             title: "CONTACT",
             links: [
-                { text: "+1-212-456-7890", path: '/', icon: MailIcon },
-                { text: "contact@example.com", path: '/', icon: PhoneIcon },
-                { text: "794 Francisco, 94102", path: '/', icon: MapPinIcon }
+                { text: "0000000", path: '/', icon: MailIcon },
+                { text: "abc@example.com", path: '/', icon: PhoneIcon },
+                { text: "123,abc/123", path: '/', icon: MapPinIcon }
             ]
         }
     ];
@@ -80,7 +80,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <p className="py-4 text-sm text-slate-500">
-                    Copyright 2025 © gocart All Right Reserved.
+                    Copyright 2025 © BigShop All Right Reserved.
                 </p>
             </div>
         </footer>

@@ -65,9 +65,6 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ---
 
-## 🤝 Contributing <a name="-contributing"></a>
-
-We welcome contributions! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to get started.
 
 ---
 

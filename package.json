@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.525.0",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.6.0",
     "react-redux": "^9.2.0",
-    "react-hot-toast": "^2.5.2",
-    "recharts": "^3.1.2",
-    "date-fns": "^4.1.0",
-    "lucide-react": "^0.525.0",
-    "@reduxjs/toolkit": "^2.8.2"
+    "recharts": "^3.1.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
