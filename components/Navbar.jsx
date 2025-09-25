@@ -8,10 +8,10 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const cartCount = useSelector((state: any) => state.cart.total);
+  const cartCount = useSelector((state) => state.cart.total);
 
   const handleSearch = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+    (e) => {
       e.preventDefault();
       if (search.trim()) {
         router.push(`/shop?search=${encodeURIComponent(search.trim())}`);
