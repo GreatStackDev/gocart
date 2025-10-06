@@ -47,17 +47,22 @@ const Footer = () => {
     ]
 
     return (
-        <footer className="mx-6 bg-white">
+        <footer className="mx-6 bg-white border-t border-slate-100">
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-slate-500/30 text-slate-500">
+                <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-slate-200 text-slate-500">
                     <div>
-                        <Link href="/" className="text-4xl font-semibold text-slate-700">
+                        <Link href="/" className="text-4xl font-semibold text-slate-700 hover:text-slate-900 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500/20 rounded">
                             <span className="text-green-600">go</span>cart<span className="text-green-600 text-5xl leading-0">.</span>
                         </Link>
-                        <p className="max-w-[410px] mt-6 text-sm">Welcome to gocart, your ultimate destination for the latest and smartest gadgets. From smartphones and smartwatches to essential accessories, we bring you the best in innovation — all in one place.</p>
+                        <p className="max-w-[410px] mt-6 text-sm leading-relaxed">Welcome to gocart, your ultimate destination for the latest and smartest gadgets. From smartphones and smartwatches to essential accessories, we bring you the best in innovation — all in one place.</p>
                         <div className="flex items-center gap-3 mt-5">
                             {socialIcons.map((item, i) => (
-                                <Link href={item.link} key={i} className="flex items-center justify-center w-10 h-10 bg-slate-100 hover:scale-105 hover:border border-slate-300 transition rounded-full">
+                                <Link
+                                    href={item.link}
+                                    key={i}
+                                    className="flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 hover:scale-105 hover:border border-slate-300 transition rounded-full focus:outline-none focus:ring-2 focus:ring-green-500/20"
+                                    aria-label={`Visit our ${item.link.split('://')[1]}`}
+                                >
                                     <item.icon />
                                 </Link>
                             ))}
@@ -71,7 +76,7 @@ const Footer = () => {
                                     {section.links.map((link, i) => (
                                         <li key={i} className="flex items-center gap-2">
                                             {link.icon && <link.icon />}
-                                            <Link href={link.path} className="hover:underline transition">{link.text}</Link>
+                                            <Link href={link.path} className="hover:text-green-600 hover:underline transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500/20 rounded-sm px-1">{link.text}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -79,7 +84,7 @@ const Footer = () => {
                         ))}
                     </div>
                 </div>
-                <p className="py-4 text-sm text-slate-500">
+                <p className="py-4 text-sm text-slate-400">
                     Copyright 2025 © gocart All Right Reserved.
                 </p>
             </div>
