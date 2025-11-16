@@ -1,5 +1,5 @@
 'use client'
-import { dummyStoreDashboardData } from "@/assets/assets"
+import { dummyWholesaleDashboardData } from "@/assets/assets" // wholesale data
 import Loading from "@/components/Loading"
 import { CircleDollarSignIcon, ShoppingBasketIcon, StarIcon, TagsIcon } from "lucide-react"
 import Image from "next/image"
@@ -9,7 +9,6 @@ import { useEffect, useState } from "react"
 export default function Dashboard() {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
-
     const router = useRouter()
 
     const [loading, setLoading] = useState(true)
@@ -28,7 +27,7 @@ export default function Dashboard() {
     ]
 
     const fetchDashboardData = async () => {
-        setDashboardData(dummyStoreDashboardData)
+        setDashboardData(dummyWholesaleDashboardData)
         setLoading(false)
     }
 
@@ -39,8 +38,8 @@ export default function Dashboard() {
     if (loading) return <Loading />
 
     return (
-        <div className=" text-slate-500 mb-28">
-            <h1 className="text-2xl">Seller <span className="text-slate-800 font-medium">Dashboard</span></h1>
+        <div className="text-slate-500 mb-28">
+            <h1 className="text-2xl">Wholesale Seller <span className="text-slate-800 font-medium">Dashboard</span></h1>
 
             <div className="flex flex-wrap gap-5 my-10 mt-4">
                 {
@@ -82,7 +81,7 @@ export default function Dashboard() {
                                         ))}
                                     </div>
                                 </div>
-                                <button onClick={() => router.push(`/product/${review.product.id}`)} className="bg-slate-100 px-5 py-2 hover:bg-slate-200 rounded transition-all">View Product</button>
+                                <button onClick={() => router.push(`/wholesale/product/${review.product.id}`)} className="bg-slate-100 px-5 py-2 hover:bg-slate-200 rounded transition-all">View Product</button>
                             </div>
                         </div>
                     ))

@@ -1,0 +1,2 @@
+adding quantity for adding product for wholesaler and  retialer page //add product page
+adding stock left in the manage product page//
