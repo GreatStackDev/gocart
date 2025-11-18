@@ -2,9 +2,8 @@
 const nextConfig = {
     images:{
         unoptimized: true
-    },
-    output: 'export',  // 啟用靜態導出（Firebase Hosting 需要）
-    distDir: 'out'     // 輸出目錄
+    }
+    // 移除 output: 'export' 以支援動態路由
 };
 
 export default nextConfig;
