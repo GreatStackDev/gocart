@@ -1,4 +1,4 @@
-// StoreManageProducts.jsx (Updated for Unit Pricing)
+// WStoreManageProducts.jsx (Complete & Functional Code)
 
 'use client'
 import { useEffect, useState } from "react"
@@ -6,12 +6,12 @@ import { toast } from "react-hot-toast"
 import Image from "next/image"
 import Loading from "@/components/Loading"
 import { productDummyData } from "@/assets/assets"
-import { PencilIcon } from 'lucide-react' 
-import EditProductModal from '@/components/EditProductModal'; // Must be imported
+import { PencilIcon } from 'lucide-react'
+import EditProductModal from '@/components/EditProductModal'; 
 
 const FALLBACK_IMAGE = '/images/placeholder-product.png'; 
 
-export default function StoreManageProducts() {
+export default function WStoreManageProducts() {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
 
@@ -23,13 +23,13 @@ export default function StoreManageProducts() {
     const [editingProduct, setEditingProduct] = useState(null); 
 
     const fetchProducts = async () => {
-        // Assume productDummyData now contains 'itemsInUnit' property for each product
-        setProducts(productDummyData) 
+        // Simulating data fetch from a static source
+        setProducts(productDummyData)
         setLoading(false)
     }
 
     const toggleStock = async (productId) => {
-        // Logic to toggle the stock of a product
+        // Logic to toggle the stock of a wholesale product
     }
 
     // Handler to open the modal with the product data
@@ -44,7 +44,7 @@ export default function StoreManageProducts() {
         setEditingProduct(null);
     };
 
-    // Logic to update the 'products' state when the modal saves
+    // 🌟 FIX: Logic to update the 'products' state when the modal saves
     const handleSave = (updatedData) => {
         
         setProducts(currentProducts => {
@@ -61,7 +61,6 @@ export default function StoreManageProducts() {
         handleCloseModal();
     };
 
-
     useEffect(() => {
         fetchProducts()
     }, [])
@@ -70,17 +69,16 @@ export default function StoreManageProducts() {
 
     return (
         <>
-            <h1 className="text-2xl text-slate-500 mb-5">Manage <span className="text-slate-800 font-medium">Products</span></h1>
+            <h1 className="text-2xl text-slate-500 mb-5">Manage <span className="text-slate-800 font-medium">Wholesale Products</span></h1>
             <table className="w-full max-w-4xl text-left ring ring-slate-200 rounded overflow-hidden text-sm">
                 
                 <thead className="bg-slate-50 text-gray-700 uppercase tracking-wider">
                     <tr>
                         <th className="px-4 py-3">Name</th>
                         <th className="px-4 py-3 hidden md:table-cell">Description</th>
-                        <th className="px-4 py-3 hidden md:table-cell">MRP (Unit)</th>
-                        <th className="px-4 py-3">Price (Unit)</th>
-                        <th className="px-4 py-3 text-center">Quantity (Total Units)</th>
-                        <th className="px-4 py-3 text-center">Items per Unit</th> {/* 🌟 NEW COLUMN 🌟 */}
+                        <th className="px-4 py-3 hidden md:table-cell">MRP</th>
+                        <th className="px-4 py-3">Price</th>
+                        <th className="px-4 py-3 text-center">Quantity</th>
                         <th className="px-4 py-3">Actions</th>
                     </tr>
                 </thead>
@@ -106,12 +104,11 @@ export default function StoreManageProducts() {
                             <td className="px-4 py-3 hidden md:table-cell align-middle">{currency} {product.mrp.toLocaleString()}</td>
                             <td className="px-4 py-3 whitespace-nowrap align-middle">{currency} {product.price.toLocaleString()}</td>
                             <td className="px-4 py-3 text-center align-middle">{product.quantity}</td>
-                            <td className="px-4 py-3 text-center align-middle">{product.itemsInUnit || 1}</td> {/* 🌟 NEW CELL 🌟 */}
                             
                             <td className="px-4 py-3 align-middle"> 
                                 <div className="flex items-center justify-center space-x-3">
-
-                                    {/* Edit Button */}
+                                    
+                                    {/* Edit Button: Opens modal and passes product data */}
                                     <button 
                                         onClick={() => handleEditClick(product)}
                                         className="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-100 transition duration-150"
@@ -119,7 +116,7 @@ export default function StoreManageProducts() {
                                     >
                                         <PencilIcon size={16} />
                                     </button>
-
+                                    
                                     {/* Toggle Button UI */}
                                     <label className="relative inline-flex items-center cursor-pointer text-gray-900">
                                         <input type="checkbox" className="sr-only peer" onChange={() => toast.promise(toggleStock(product.id), { loading: "Updating data..." })} checked={product.inStock} />
@@ -133,7 +130,7 @@ export default function StoreManageProducts() {
                 </tbody>
             </table>
             
-            {/* Modal Component: Uses key={id} and conditional rendering */}
+            {/* Modal Component: Uses the dynamic key={id} to force remount and field update */}
             {isModalOpen && editingProduct && (
                 <EditProductModal 
                     key={editingProduct.id} 

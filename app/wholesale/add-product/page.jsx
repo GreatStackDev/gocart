@@ -4,9 +4,9 @@ import Image from "next/image"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 
-export default function StoreAddProduct() {
+export default function WStoreAddProduct() {
 
-    const categories = ['Electronics', 'Clothing', 'Home & Kitchen', 'Beauty & Health', 'Toys & Games', 'Sports & Outdoors', 'Books & Media', 'Food & Drink', 'Hobbies & Crafts', 'Others']
+    const categories = ['Electronics', 'Clothing', 'Home & Kitchen', 'Food & Drink', 'Bulk Others']
 
     const [images, setImages] = useState({ 1: null, 2: null, 3: null, 4: null })
     const [productInfo, setProductInfo] = useState({
@@ -14,7 +14,7 @@ export default function StoreAddProduct() {
         description: "",
         mrp: 0,
         price: 0,
-        quantity: 1, // Added quantity field
+        quantity: 1, // Added quantity
         category: "",
     })
     const [loading, setLoading] = useState(false)
@@ -25,12 +25,12 @@ export default function StoreAddProduct() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
-        // Logic to add a product
+        // Logic to add a wholesale product
     }
 
     return (
         <form onSubmit={e => toast.promise(onSubmitHandler(e), { loading: "Adding Product..." })} className="text-slate-500 mb-28">
-            <h1 className="text-2xl">Add New <span className="text-slate-800 font-medium">Products</span></h1>
+            <h1 className="text-2xl">Add New <span className="text-slate-800 font-medium">Wholesale Products</span></h1>
             <p className="mt-7">Product Images</p>
 
             <div className="flex gap-3 mt-4">

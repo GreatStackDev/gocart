@@ -61,6 +61,36 @@ export const dummyStoreData = {
     }
 }
 
+export const dummyWholesaleDashboardData = {
+    ratings: dummyRatingsData,
+    totalOrders: 2,
+    totalEarnings: 636,
+    totalProducts: 5
+};
+
+export const dummyWholesaleData = {
+    id: "wholesale_1",
+    userId: "user_1",
+    name: "Wholesale Hub",
+    description: "At Wholesale Hub, we offer bulk products at great prices. Our goal is to simplify your buying experience with quality products in large quantities.",
+    username: "wholesalehub",
+    address: "1st Floor, Wholesale Hub, Main Building, 456 Market St, B Sector, NY, US",
+    status: "approved",
+    isActive: true,
+    logo: gs_logo, // can use same logo or another image if you want
+    email: "wholesalehub@example.com",
+    contact: "+0 9876543210",
+    createdAt: "2025-09-04T09:04:16.189Z",
+    updatedAt: "2025-09-04T09:04:44.273Z",
+    user: {
+        id: "user_31dOriXqC4TATvc0brIhlYbwwc5",
+        name: "Great Stack",
+        email: "user.greatstack@gmail.com",
+        image: gs_logo,
+    }
+};
+
+
 export const productDummyData = [
     {
         id: "prod_1",
@@ -68,6 +98,7 @@ export const productDummyData = [
         description: "Modern table lamp with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty. Enhance your audio experience with this earbuds. Indulge yourself in a world of pure sound with 50 hours of uninterrupted playtime. Equipped with the cutting-edge Zen Mode Tech ENC and BoomX Tech, prepare to be enthralled by a symphony of crystal-clear melodies.",
         mrp: 40,
         price: 29,
+        quantity: 5,
         images: [product_img1, product_img2, product_img3, product_img4],
         category: "Decoration",
         storeId: "seller_1",
@@ -83,6 +114,7 @@ export const productDummyData = [
         description: "Smart speaker with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 50,
         price: 29,
+        quantity: 3,
         images: [product_img2],
         storeId: "seller_1",
         inStock: true,
@@ -98,6 +130,7 @@ export const productDummyData = [
         description: "Smart watch with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 60,
         price: 29,
+        quantity: 2,
         images: [product_img3],
         storeId: "seller_1",
         inStock: true,
@@ -113,6 +146,7 @@ export const productDummyData = [
         description: "Wireless headphones with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 70,
         price: 29,
+        quantity: 4,
         images: [product_img4],
         storeId: "seller_1",
         inStock: true,
@@ -128,6 +162,7 @@ export const productDummyData = [
         description: "Smart watch with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 49,
         price: 29,
+        quantity: 1,
         images: [product_img5],
         storeId: "seller_1",
         inStock: true,
@@ -143,6 +178,7 @@ export const productDummyData = [
         description: "Security Camera with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 59,
         price: 29,
+        quantity: 4,
         images: [product_img6],
         storeId: "seller_1",
         inStock: true,
@@ -158,6 +194,7 @@ export const productDummyData = [
         description: "Smart Pen for iPad with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 89,
         price: 29,
+        quantity: 4,
         images: [product_img7],
         storeId: "seller_1",
         inStock: true,
@@ -173,6 +210,7 @@ export const productDummyData = [
         description: "Home Theater with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 99,
         price: 29,
+        quantity: 1,
         images: [product_img8],
         storeId: "seller_1",
         inStock: true,
@@ -188,6 +226,7 @@ export const productDummyData = [
         description: "Apple Wireless Earbuds with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 89,
         price: 29,
+        quantity: 2,
         images: [product_img9],
         storeId: "seller_1",
         inStock: true,
@@ -203,6 +242,7 @@ export const productDummyData = [
         description: "Apple Smart Watch with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 179,
         price: 29,
+        quantity: 6,
         images: [product_img10],
         storeId: "seller_1",
         inStock: true,
@@ -218,6 +258,7 @@ export const productDummyData = [
         description: "RGB Gaming Mouse with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 39,
         price: 29,
+        quantity: 8,
         images: [product_img11],
         storeId: "seller_1",
         inStock: true,
@@ -233,6 +274,7 @@ export const productDummyData = [
         description: "Smart Home Cleaner with a sleek design. It's perfect for any room. It's made of high-quality materials and comes with a lifetime warranty.",
         mrp: 199,
         price: 29,
+        quantity: 10,
         images: [product_img12],
         storeId: "seller_1",
         inStock: true,
@@ -284,7 +326,7 @@ export const orderDummyData = [
     {
         id: "cmemm75h5001jtat89016h1p3",
         total: 214.2,
-        status: "DELIVERED",
+        status: "PROCESSING",
         userId: "user_31dQbH27HVtovbs13X2cmqefddM",
         storeId: "cmemkqnzm000htat8u7n8cpte",
         addressId: "cmemm6g95001ftat8omv9b883",
