@@ -64,6 +64,24 @@ You can start editing the page by modifying `app/(public)/page.js`. The page aut
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Outfit](https://vercel.com/font), a new font family for Vercel.
 
 ---
+## Docker
+
+You can run GoCart using Docker withou installing Node.js locally.
+
+#### Build the image
+```bash
+docker build -t gocart-app .
+```
+
+#### Run the container
+```bash
+docker run -d -p 3000:3000 gocart-app
+```
+
+#### Open in browser
+Go to http://localhost:3000 to view the app.
+
+---
 
 ## 🤝 Contributing <a name="-contributing"></a>
 
