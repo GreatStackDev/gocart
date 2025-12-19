@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Rating from "./Rating";
 import { useState } from "react";
 import RatingModal from "./RatingModal";
+import OrderStatusTracker from "./OrderStatusTracker"; // 👈 1. Import the new tracker component
 
 const OrderItem = ({ order }) => {
 
@@ -12,6 +13,11 @@ const OrderItem = ({ order }) => {
     const [ratingModal, setRatingModal] = useState(null);
 
     const { ratings } = useSelector(state => state.rating);
+
+    // Count the total number of columns in the main header (4 visible + 1 or more implicit/responsive columns)
+    // Based on the <thead> in your Orders.jsx: Product, Total Price, Address, Status = 4 columns.
+    // We'll use '4' for colspan in the main section, and '5' for the mobile section as you did.
+    const COLSPAN_COUNT = 4; // Assuming 4 columns in the main desktop view
 
     return (
         <>
@@ -67,7 +73,13 @@ const OrderItem = ({ order }) => {
                     </div>
                 </td>
             </tr>
-            {/* Mobile */}
+            {/* 🔽 2. Status Tracker Row (Visible on Desktop and Mobile) 🔽 */}
+            <tr>
+                <td colSpan={COLSPAN_COUNT} className="pt-0 pb-12 max-sm:pb-6 max-sm:px-4">
+                    <OrderStatusTracker currentStatus={order.status} />
+                </td>
+            </tr>
+            {/* Mobile (Original mobile row is kept as is, but now followed by the tracker) */}
             <tr className="md:hidden">
                 <td colSpan={5}>
                     <p>{order.address.name}, {order.address.street}</p>
@@ -81,8 +93,9 @@ const OrderItem = ({ order }) => {
                     </div>
                 </td>
             </tr>
+            {/* Final Separator */}
             <tr>
-                <td colSpan={4}>
+                <td colSpan={COLSPAN_COUNT}>
                     <div className="border-b border-slate-300 w-6/7 mx-auto" />
                 </td>
             </tr>
@@ -90,4 +103,4 @@ const OrderItem = ({ order }) => {
     )
 }
 
-export default OrderItem
+export default OrderItems
