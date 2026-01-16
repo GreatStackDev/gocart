@@ -40,10 +40,10 @@ const Footer = () => {
     ];
 
     const socialIcons = [
-        { icon: FacebookIcon, link: "https://www.facebook.com" },
-        { icon: InstagramIcon, link: "https://www.instagram.com" },
+        { icon: FacebookIcon, link: process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://www.facebook.com" },
+        { icon: InstagramIcon, link: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com" },
         { icon: TwitterIcon, link: "https://twitter.com" },
-        { icon: LinkedinIcon, link: "https://www.linkedin.com" },
+        { icon: LinkedinIcon, link: process.env.NEXT_PUBLIC_LINKEDIN_URL || "https://www.linkedin.com" },
     ]
 
     return (
