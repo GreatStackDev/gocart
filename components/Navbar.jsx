@@ -47,7 +47,7 @@ const Navbar = () => {
                             <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">{cartCount}</button>
                         </Link>
 
-                        <button className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+                        <button className="px-8 py-2 bg-[#00ca55] hover:bg-[#00b84d] transition text-white rounded-full">
                             Login
                         </button>
 
