@@ -1,0 +1,30 @@
+name: AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+
+jobs:
+  review:
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       contains(github.event.comment.body, '/review'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Claude PR Review Agent
+        uses: saad-masood-dev/pr-review-agent-action@v1
+        with:
+          repo: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number || github.event.issue.number }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          anthropic_model: claude-sonnet-4-5
