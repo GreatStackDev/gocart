@@ -9,18 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "15.3.5",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@reduxjs/toolkit": "^2.8.2",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.4.2",
+    "lucide-react": "^0.525.0",
+    "next": "^16.2.6",
+    "pg": "^8.21.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "react-redux": "^9.2.0",
     "react-hot-toast": "^2.5.2",
-    "recharts": "^3.1.2",
-    "date-fns": "^4.1.0",
-    "lucide-react": "^0.525.0",
-    "@reduxjs/toolkit": "^2.8.2"
+    "react-redux": "^9.2.0",
+    "recharts": "^3.1.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "@types/node": "25.9.1",
+    "@types/react": "19.2.15",
+    "prisma": "^7.8.0",
+    "tailwindcss": "^4",
+    "typescript": "6.0.3"
   }
 }
