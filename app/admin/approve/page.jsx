@@ -46,11 +46,13 @@ export default function AdminApprove() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            fetchStores()
+            toast.success(data.message)
+
+            await fetchStores()
             return data.message || `Store ${status} successfully`
         } catch (error) {
             console.log(error)
-            throw new Error(error.response?.data?.error || "Action failed")
+            toast.error(error.response?.data?.error || "Action failed")
         }
     }
 
