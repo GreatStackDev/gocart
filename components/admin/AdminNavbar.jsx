@@ -17,7 +17,7 @@ const {user} = useUser()
 
             </Link>
             <div className="flex items-center gap-3">
-                <p className="text-sm">Hi, {user.firstName}</p>
+                <p className="text-sm">Welcome, {user.firstName}</p>
                 <UserButton/>
                 
             </div>

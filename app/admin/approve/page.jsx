@@ -5,6 +5,7 @@ import Loading from "@/components/Loading"
 import { useAuth, useUser } from "@clerk/nextjs"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import axios from "axios"
 
 
 export default function AdminApprove() {
@@ -17,7 +18,7 @@ export default function AdminApprove() {
     const fetchStores = async () => {
         try {
             const token = await getToken()
-            const { data } = await axios.get("/api/admin/approve-stores", {
+            const { data } = await axios.get("/api/admin/approve-store", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -35,9 +36,22 @@ export default function AdminApprove() {
     }
 
     const handleApprove = async ({ storeId, status }) => {
-       
-
-
+        try {
+            const token = await getToken()
+            const { data } = await axios.post("/api/admin/approve-store", {
+                storeId,
+                status
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            fetchStores()
+            return data.message || `Store ${status} successfully`
+        } catch (error) {
+            console.log(error)
+            throw new Error(error.response?.data?.error || "Action failed")
+        }
     }
 
     useEffect(() => {
@@ -57,10 +71,10 @@ export default function AdminApprove() {
 
                             {/* Actions */}
                             <div className="flex gap-3 pt-2 flex-wrap">
-                                <button onClick={() => toast.promise(handleApprove({ storeId: store.id, status: 'approved' }), { loading: "approving" })} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm" >
+                                <button onClick={() => toast.promise(handleApprove({ storeId: store.id, status: 'approved' }), { loading: "Approving...", success: (msg) => msg, error: (err) => err.message })} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm" >
                                     Approve
                                 </button>
-                                <button onClick={() => toast.promise(handleApprove({ storeId: store.id, status: 'rejected' }), { loading: 'rejecting' })} className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 text-sm" >
+                                <button onClick={() => toast.promise(handleApprove({ storeId: store.id, status: 'rejected' }), { loading: 'Rejecting...', success: (msg) => msg, error: (err) => err.message })} className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 text-sm" >
                                     Reject
                                 </button>
                             </div>

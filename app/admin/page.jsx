@@ -5,8 +5,8 @@ import OrdersAreaChart from "@/components/OrdersAreaChart";
 import axios from "axios";
 import { CircleDollarSignIcon, ShoppingBasketIcon, StoreIcon, TagsIcon } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
-import { getAuth } from "@clerk/nextjs/server";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 
 export default function AdminDashboard() {
