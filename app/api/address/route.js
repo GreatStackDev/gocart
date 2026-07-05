@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 
-// get all addresses 
+// add new address 
 export async function POST(request) {
     try {
         const { userId } = getAuth(request)
@@ -19,6 +19,30 @@ export async function POST(request) {
         
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ message: 'Failed to add addresses' }, { status: 500 })
+        return NextResponse.json(
+          { error: error.code || error.message, status: 400 },
+          { status: 400 },
+        );
+    }
+}
+
+// get all addresses
+
+export async function GET(request) {
+    try {
+        const {userId} = getAuth(request)
+        const addresses = await prisma.address.findMany({
+            where: {
+                userId: userId
+            },
+            
+        })
+        return NextResponse.json({ addresses })
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({
+            error: error.code || error.message,
+            status: 400,
+        })
     }
 }
