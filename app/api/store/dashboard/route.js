@@ -28,10 +28,10 @@ export async function GET(request){
         const ratings = await prisma.rating.findMany({
          where:{
                 productId: { in: products.map((product) => product.id) },
-            include:{
-                user: true,
-                product: true
-            }
+         },
+         include:{
+             user: true,
+             product: true
          }
         })
         

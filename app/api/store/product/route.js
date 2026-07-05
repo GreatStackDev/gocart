@@ -28,14 +28,14 @@ export async function POST(request) {
     const mrp = Number(formData.get("mrp"));
 
     const category = formData.get("category");
-    const image = formData.getAll("image");
+    const image = formData.getAll("images");
 
     if (
       !name ||
       !description ||
       !price ||
       !category ||
-      !image.length < 1 ||
+      image.length < 1 ||
       !mrp
     ) {
       return NextResponse.json(
