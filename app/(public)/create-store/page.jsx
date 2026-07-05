@@ -82,8 +82,8 @@ export default function CreateStore() {
     if (!user) {
       return toast("You are not logged in , please login to continue");
     }
-    const toastId = toast.loading("Submitting data...");
-    try {
+
+    const submitPromise = (async () => {
       const token = await getToken();
       const formData = new FormData();
       formData.append("name", storeInfo.name);
@@ -99,12 +99,18 @@ export default function CreateStore() {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success(data.message, { id: toastId });
+
       await fetchSellerStatus();
-    } catch (error) {
-      toast.error(error?.response?.data?.error || error.message, { id: toastId });
-    }
+      return data.message;
+    })();
+
+    toast.promise(submitPromise, {
+      loading: "Submitting data...",
+      success: (msg) => msg,
+      error: (err) => err?.response?.data?.error || err.message,
+    });
   };
+  
 
   useEffect(() => {
     if (user) {

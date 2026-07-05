@@ -11,13 +11,13 @@ export async function POST(request) {
     //Get the data from form
     const formData = await request.formData();
 
-    const name = formData("name");
-    const username = formData("username");
-    const description = formData("description");
-    const email = formData("email");
-    const contact = formData("contact");
-    const image = formData("image");
-    const address = formData("address");
+    const name = formData.get("name");
+    const username = formData.get("username");
+    const description = formData.get("description");
+    const email = formData.get("email");
+    const contact = formData.get("contact");
+    const image = formData.get("image");
+    const address = formData.get("address");
 
     if (
       !name ||

@@ -2,29 +2,47 @@
 import { storesDummyData } from "@/assets/assets"
 import StoreInfo from "@/components/admin/StoreInfo"
 import Loading from "@/components/Loading"
+import { useAuth, useUser } from "@clerk/nextjs"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
-export default function AdminApprove() {
 
+export default function AdminApprove() {
+    const { user } = useUser()
+    const { getToken } = useAuth()
     const [stores, setStores] = useState([])
     const [loading, setLoading] = useState(true)
 
 
     const fetchStores = async () => {
-        setStores(storesDummyData)
-        setLoading(false)
+        try {
+            const token = await getToken()
+            const { data } = await axios.get("/api/admin/approve-stores", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            setStores(data.stores)
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+            toast.error(
+                error.response?.data?.error || "Failed to load stores",
+            );
+        }finally{
+            setLoading(false)
+        }
     }
 
     const handleApprove = async ({ storeId, status }) => {
-        // Logic to approve a store
+       
 
 
     }
 
     useEffect(() => {
-            fetchStores()
-    }, [])
+        user && fetchStores()
+    }, [user])
 
     return !loading ? (
         <div className="text-slate-500 mb-28">
