@@ -2,6 +2,10 @@
 import { useEffect, useState } from "react"
 import Loading from "@/components/Loading"
 import { orderDummyData } from "@/assets/assets"
+import axios from "axios"
+import toast from "react-hot-toast"
+import { useAuth } from "@clerk/nextjs"
+
 
 export default function StoreOrders() {
     const [orders, setOrders] = useState([])
@@ -10,15 +14,46 @@ export default function StoreOrders() {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
 
+    const { getToken } = useAuth()
+
+
     const fetchOrders = async () => {
-       setOrders(orderDummyData)
-       setLoading(false)
+        try {
+            const token = await getToken()
+            const { data } = await axios.get('/api/store/orders', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setOrders(data.orders)
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     const updateOrderStatus = async (orderId, status) => {
-        // Logic to update the status of an order
-
-
+        setLoading(true)
+        try {
+            const token = await getToken()
+            await axios.post('/api/store/orders', {
+                orderId,
+                status
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setOrders(prev => prev.map(order => order.id === orderId ? { ...order, status } : order))
+            toast.success('Order status updated successfully')
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     const openModal = (order) => {
