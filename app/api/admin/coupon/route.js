@@ -23,8 +23,14 @@ export async function POST(request){
         
         await prisma.coupon.create({
             data: coupon,
+        }).then(async (coupon) => { 
+            await inngest.send({
+                name: "app/coupon.expired",
+                data: coupon,
+                expires_at: coupon.expiresAt,
+            })
         })
-
+ 
         return NextResponse.json({
             message: "Coupon created successfully",
         })
