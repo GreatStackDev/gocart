@@ -3,15 +3,18 @@
 import Loading from "@/components/Loading";
 import OrdersAreaChart from "@/components/OrdersAreaChart";
 import axios from "axios";
-import { CircleDollarSignIcon, ShoppingBasketIcon, StoreIcon, TagsIcon } from "lucide-react";
+import {
+  CircleDollarSignIcon,
+  ShoppingBasketIcon,
+  StoreIcon,
+  TagsIcon,
+} from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-
 export default function AdminDashboard() {
   const { getToken } = useAuth();
-
 
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "R";
 
