@@ -4,7 +4,6 @@ import authSeller from "@/middlewares/authSeller";
 import imagekit from "@/configs/imageKit";
 import prisma from "@/lib/prisma";
 
-
 // add new product
 
 export async function POST(request) {
@@ -27,19 +26,17 @@ export async function POST(request) {
     const description = formData.get("description");
     const price = Number(formData.get("price"));
     const mrp = Number(formData.get("mrp"));
-    
+
     const category = formData.get("category");
     const image = formData.getAll("image");
-    
 
     if (
       !name ||
       !description ||
       !price ||
       !category ||
-        !image.length < 1 ||
-        !mrp
-
+      !image.length < 1 ||
+      !mrp
     ) {
       return NextResponse.json(
         {
@@ -47,11 +44,12 @@ export async function POST(request) {
         },
         { status: 400 },
       );
-      }
-      
-      // uploading image to imagekit
+    }
 
-      const imagesUrl = await Promise.all(image.map(async (image) =>{
+    // uploading image to imagekit
+
+    const imagesUrl = await Promise.all(
+      image.map(async (image) => {
         const buffer = Buffer.from(await image.arrayBuffer());
         const response = await imagekit.upload({
           file: buffer,
@@ -67,28 +65,26 @@ export async function POST(request) {
           ],
         });
         return url;
-      }))
+      }),
+    );
 
-      //save product to database
+    //save product to database
 
-      await prisma.product.create({
-        data: {
-          storeId,
-          name,
-          description,
-          price,
-          mrp,
-          category,
-          images: imagesUrl,
-        },
-      })
+    await prisma.product.create({
+      data: {
+        name,
+        description,
+        price,
+        mrp,
+        category,
+        images: imagesUrl,
+        storeId,
+      },
+    });
 
-
-      
-      return NextResponse.json({
-        message: "Product added successfully",
-      });
-      
+    return NextResponse.json({
+      message: "Product added successfully",
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json({
@@ -98,7 +94,7 @@ export async function POST(request) {
   }
 }
 
-// get all products for seller 
+// get all products for seller
 
 export async function GET(request) {
   try {
@@ -129,4 +125,3 @@ export async function GET(request) {
     });
   }
 }
-

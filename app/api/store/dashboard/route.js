@@ -25,7 +25,7 @@ export async function GET(request){
 
         });
 
-        const rating = await prisma.rating.findMany({
+        const ratings = await prisma.rating.findMany({
          where:{
                 productId: { in: products.map((product) => product.id) },
             include:{

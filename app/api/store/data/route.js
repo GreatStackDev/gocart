@@ -7,8 +7,8 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
     try {
         //get store username from query params
-        const { searchParam } = new URL(request.url);
-        const username = searchParam.get("username").toLowerCase();
+        const { searchParams } = new URL(request.url);
+        const username = searchParams.get("username").toLowerCase();
 
         if (!username) {
             return NextResponse.json(
