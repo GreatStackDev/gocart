@@ -1,8 +1,6 @@
-
-
 // add new rating
 
-import { getAuth } from "@clerk/nextjs/dist/types/server";
+import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
@@ -42,10 +40,7 @@ export async function POST(request) {
       );
     }
 
-      
-      
-
-   // Create the review
+    // Create the review
     const response = await prisma.rating.create({
       data: {
         orderId,
@@ -55,13 +50,12 @@ export async function POST(request) {
         review,
       },
     });
-      
-    return NextResponse.json({message: "rating added successfully" ,success: true, rating: response });
 
-    
-
-
-    
+    return NextResponse.json({
+      message: "rating added successfully",
+      success: true,
+      rating: response,
+    });
   } catch (error) {
     console.error("Error creating review:", error);
     return NextResponse.json(
@@ -71,25 +65,24 @@ export async function POST(request) {
   }
 }
 
-
-// get all ratings for a user 
+// get all ratings for a user
 export async function GET(request) {
-    try {
-        const { userId } = getAuth(request);
-        if (!userId) {
-            return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-        }
-        const ratings = await prisma.rating.findMany({
-            where: {
-                userId,
-            },
-        }); 
-        return NextResponse.json({ ratings });
-    } catch (error) {
-        console.error("Error fetching ratings:", error);
-        return NextResponse.json(
-            { error: error.code || error.message },
-            { status: 400 },
-        );
+  try {
+    const { userId } = getAuth(request);
+    if (!userId) {
+      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
+    const ratings = await prisma.rating.findMany({
+      where: {
+        userId,
+      },
+    });
+    return NextResponse.json({ ratings });
+  } catch (error) {
+    console.error("Error fetching ratings:", error);
+    return NextResponse.json(
+      { error: error.code || error.message },
+      { status: 400 },
+    );
+  }
 }

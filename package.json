@@ -27,6 +27,7 @@
     "react-hot-toast": "^2.6.0",
     "react-redux": "^9.3.0",
     "recharts": "^3.9.0",
+    "stripe": "^22.3.0",
     "ws": "^8.21.0"
   },
   "devDependencies": {
