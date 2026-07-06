@@ -15,7 +15,7 @@ export async function POST(request) {
             data: address
         })
 
-        return NextResponse.json({ message: 'Address created successfully' }, { status: 200 })
+        return NextResponse.json({ message: 'Address created successfully', newAddress }, { status: 200 })
         
     } catch (error) {
         console.log(error);
