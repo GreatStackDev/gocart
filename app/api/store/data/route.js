@@ -28,9 +28,14 @@ export async function GET(request) {
             },
             include: {
                 Product: {
-                    rating: true
-                }
-            }
+                    where: {
+                        inStock: true,
+                    },
+                    include: {
+                        rating: true,
+                    },
+                },
+            },
         });
 
         if (!store) {

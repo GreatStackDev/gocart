@@ -1,21 +1,21 @@
 'use client';
 
-import { SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
+import { Show, SignIn } from "@clerk/nextjs";
 import AdminLayout from "./AdminLayout";
 
 export default function AdminClerkWrapper({ children }) {
     return (
         <>
-            <SignedIn>
+            <Show when="signed-in">
                 <AdminLayout>
                     {children}
                 </AdminLayout>
-            </SignedIn>
-            <SignedOut>
+            </Show>
+            <Show when="signed-out">
                 <div className="min-h-screen flex items-center justify-center">
                     <SignIn fallbackRedirectUrl="/admin" routing="hash"/>
                 </div>
-            </SignedOut>
+            </Show>
         </>
     );
 }

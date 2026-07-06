@@ -49,7 +49,7 @@ export const syncUserDeletion = inngest.createFunction(
   },
   async ({ event }) => {
     const { data } = event;
-    await prisma.user.delete({
+    await prisma.user.deleteMany({
       where: {
         id: event.data.id,
       },
