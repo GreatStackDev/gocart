@@ -12,7 +12,7 @@ export async function POST(request) {
     const event = stripe.webhooks.constructEvent(
       body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET,
+      process.env.STRIPE_WEBHOOK_SECRET.trim(),
     );
 
     const handlePaymentIntent = async (paymentIntentId, isPaid) => {
