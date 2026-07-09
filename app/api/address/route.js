@@ -18,9 +18,9 @@ export async function POST(request) {
         return NextResponse.json({ message: 'Address created successfully', newAddress }, { status: 200 })
         
     } catch (error) {
-        console.log(error);
+        console.error(`[POST /api/address] ${error.message}`, { userId });
         return NextResponse.json(
-          { error: error.code || error.message, status: 400 },
+          { error: error.code || error.message },
           { status: 400 },
         );
     }
@@ -39,10 +39,9 @@ export async function GET(request) {
         })
         return NextResponse.json({ addresses })
     } catch (error) {
-        console.log(error)
+        console.error(`[GET /api/address] ${error.message}`);
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }

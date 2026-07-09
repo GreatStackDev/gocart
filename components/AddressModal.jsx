@@ -41,10 +41,10 @@ const AddressModal = ({ setShowAddressModal }) => {
         { headers: { Authorization: `Bearer ${token}` } },
       );
       dispatch(addAddress(data.newAddress));
-      toast.success(data.message);
+      toast.success("Address saved successfully!");
       setShowAddressModal(false);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.error || error?.response?.data?.message || error.message);
       setShowAddressModal(false);
     }
   };
@@ -52,7 +52,7 @@ const AddressModal = ({ setShowAddressModal }) => {
   return (
     <form
       onSubmit={(e) =>
-        toast.promise(handleSubmit(e), { loading: "Adding Address..." })
+        toast.promise(handleSubmit(e), { loading: "Saving your address…" })
       }
       className="fixed inset-0 z-50 bg-white/60 backdrop-blur h-screen flex items-center justify-center"
     >

@@ -31,7 +31,7 @@ export default function StoreManageProducts() {
       );
       setLoading(false);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.response?.data?.error || error.message);
       setLoading(false);
     }
   };
@@ -60,7 +60,7 @@ export default function StoreManageProducts() {
       );
       toast.success(data.message);
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error?.response?.data?.error || error.message);
     }
   };
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function StoreManageProducts() {
                     className="sr-only peer"
                     onChange={() =>
                       toast.promise(toggleStock(product.id), {
-                        loading: "Updating data...",
+                        loading: "Updating stock…",
                       })
                     }
                     checked={product.inStock}

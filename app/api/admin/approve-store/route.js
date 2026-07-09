@@ -48,11 +48,10 @@ export async function POST(request) {
         })
         
     } catch (error) {
-        console.log(error)
+        console.error(`[POST /api/admin/approve-store] ${error.message}`, { userId })
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }   
 
@@ -83,10 +82,9 @@ export async function GET(request) {
  
         return NextResponse.json({ stores })
     } catch (error) {
-        console.log(error)
+        console.error(`[GET /api/admin/approve-store] ${error.message}`)
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }

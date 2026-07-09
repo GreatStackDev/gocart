@@ -32,7 +32,7 @@ export default function AdminCoupons() {
       });
       setCoupons(data.coupons);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.error || error?.response?.data?.message || error.message);
     }
   };
 
@@ -51,7 +51,7 @@ export default function AdminCoupons() {
 toast.success(data.message)
       await fetchCoupons();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.error || error?.response?.data?.message || error.message);
     }
   };
 
@@ -75,7 +75,7 @@ toast.success(data.message)
         await fetchCoupons()
         toast.success("Coupon deleted successfully");
     } catch (error) {
-        toast.error(error.response.data.message)
+        toast.error(error?.response?.data?.error || error?.response?.data?.message || error.message)
     }
   };
 
@@ -88,7 +88,7 @@ toast.success(data.message)
       {/* Add Coupon */}
       <form
         onSubmit={(e) =>
-          toast.promise(handleAddCoupon(e), { loading: "Adding coupon..." })
+          toast.promise(handleAddCoupon(e), { loading: "Creating coupon…" })
         }
         className="max-w-sm text-sm"
       >

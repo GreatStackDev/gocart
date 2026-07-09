@@ -17,11 +17,11 @@ const RatingModal = ({ ratingModal, setRatingModal }) => {
   const [review, setReview] = useState("");
 
   const handleSubmit = async () => {
-    if (rating < 0 || rating > 5) {
-      return toast("Please select a rating");
+    if (rating < 0 || rating > 5 || rating === 0) {
+      return toast.error("Please select a star rating before submitting");
     }
     if (review.length < 5) {
-      return toast("write a short review");
+      return toast.error("Write at least a short review (5 characters)");
     }
 
     try {
@@ -41,10 +41,10 @@ const RatingModal = ({ ratingModal, setRatingModal }) => {
         },
       );
       dispatch(addRating(data.rating));
-      toast.success(data.message);
+      toast.success("Thanks for your review! ");
       setRatingModal(null);
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error?.response?.data?.error || error.message);
     }
   };
 
@@ -78,7 +78,7 @@ const RatingModal = ({ ratingModal, setRatingModal }) => {
         ></textarea>
         <button
           onClick={(e) =>
-            toast.promise(handleSubmit(), { loading: "Submitting..." })
+            toast.promise(handleSubmit(), { loading: "Submitting your review…" })
           }
           className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
         >

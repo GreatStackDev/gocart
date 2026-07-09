@@ -30,9 +30,9 @@ export async function POST(request) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
+    console.error(`[POST /api/store/orders] ${error.message}`, { userId });
     return NextResponse.json(
-      { message: "Failed to update order status" },
+      { error: "Failed to update order status" },
       { status: 500 },
     );
   }
@@ -72,9 +72,9 @@ export async function GET(request) {
 
     return NextResponse.json({ orders }, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error(`[GET /api/store/orders] ${error.message}`);
     return NextResponse.json(
-      { message: "Failed to fetch orders" },
+      { error: "Failed to fetch orders" },
       { status: 500 },
     );
   }

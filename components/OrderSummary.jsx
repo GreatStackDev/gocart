@@ -41,9 +41,9 @@ const OrderSummary = ({ totalPrice, items }) => {
 
       setCoupon(data);
 
-      toast.success(`Coupon applied successfully!`);
+      toast.success(`Coupon applied! ${data.discount}% off your order `);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error?.response?.data?.error || error.message);
     }
   };
 
@@ -51,11 +51,11 @@ const OrderSummary = ({ totalPrice, items }) => {
     e.preventDefault();
     try {
       if (!userId) {
-        toast.error("Please login to place an order");
+        toast.error("Please sign in to continue");
         return;
       }
       if (!selectedAddress) {
-        toast.error("Please select an address");
+        toast.error("Pick a delivery address to continue");
         return;
       }
 
@@ -77,12 +77,12 @@ const OrderSummary = ({ totalPrice, items }) => {
       if (paymentMethod === "STRIPE") {
         window.location.href = data.session.url;
       } else {
-        toast.success(data.message);
+        toast.success("Your order is confirmed! ");
         router.push("/orders");
         dispatch(fetchCart({ getToken }));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.error || error.message);
+      toast.error(error?.response?.data?.error || error?.response?.data?.message || error.message);
     }
   };
 
@@ -186,7 +186,7 @@ const OrderSummary = ({ totalPrice, items }) => {
           <form
             onSubmit={(e) =>
               toast.promise(handleCouponCode(e), {
-                loading: "Checking Coupon...",
+                loading: "Verifying coupon…",
               })
             }
             className="flex justify-center gap-3 mt-3"
@@ -230,7 +230,7 @@ const OrderSummary = ({ totalPrice, items }) => {
       </div>
       <button
         onClick={(e) =>
-          toast.promise(handlePlaceOrder(e), { loading: "placing Order..." })
+          toast.promise(handlePlaceOrder(e), { loading: "Placing your order…" })
         }
         className="w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all"
       >

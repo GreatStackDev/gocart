@@ -37,11 +37,10 @@ export async function POST(request){
         })
         
     } catch (error) {
-        console.log(error)
+        console.error(`[POST /api/admin/coupon] ${error.message}`, { userId })
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }
 
@@ -71,11 +70,10 @@ export async function DELETE(request) {
         })
         
     } catch (error) {
-        console.log(error)
+        console.error(`[DELETE /api/admin/coupon] ${error.message}`, { userId })
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }
 
@@ -96,10 +94,9 @@ export async function GET(request) {
         return NextResponse.json({coupons})
         
     } catch (error) {
-        console.log(error)
+        console.error(`[GET /api/admin/coupon] ${error.message}`)
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }

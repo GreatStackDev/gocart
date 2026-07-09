@@ -50,10 +50,9 @@ export async function POST(request) {
             message: `Store updated successfully`
         })
     } catch (error) {
-        console.log(error)
+        console.error(`[POST /api/admin/toggle-store] ${error.message}`, { userId })
         return NextResponse.json({
             error: error.code || error.message,
-            status: 400,
-        })
+        }, { status: 400 })
     }
 }

@@ -183,6 +183,7 @@ export async function POST(request) {
       { status: 200 },
     );
   } catch (error) {
+    console.error(`[POST /api/orders] ${error.message}`, { userId: 'unknown' });
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
@@ -209,6 +210,7 @@ export async function GET(request) {
     });
     return NextResponse.json(orders, { status: 200 });
   } catch (error) {
+    console.error(`[GET /api/orders] ${error.message}`);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

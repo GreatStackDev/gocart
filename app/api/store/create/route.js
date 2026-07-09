@@ -105,11 +105,10 @@ export async function POST(request) {
       message: "applied, waiting for approval",
     });
   } catch (error) {
-    console.log(error);
+    console.error(`[POST /api/store/create] ${error.message}`, { userId });
     return NextResponse.json({
       error: error.code || error.message,
-      status: 400,
-    });
+    }, { status: 400 });
   }
 }
 
@@ -134,10 +133,9 @@ export async function GET(request) {
           status: "not registered"
         });
     } catch (error) {
-    console.log(error);
+    console.error(`[GET /api/store/create] ${error.message}`);
     return NextResponse.json({
       error: error.code || error.message,
-      status: 400,
-    });
+    }, { status: 400 });
   }
 }

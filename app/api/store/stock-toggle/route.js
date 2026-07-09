@@ -58,10 +58,9 @@ export async function POST(request) {
       message: "Stock toggled successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(`[POST /api/store/stock-toggle] ${error.message}`, { userId });
     return NextResponse.json({
       error: error.code || error.message,
-      status: 400,
-    });
+    }, { status: 400 });
   }
 }

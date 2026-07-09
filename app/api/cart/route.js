@@ -26,8 +26,8 @@ export async function POST(request) {
 
         
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: 'Failed to update cart' }, { status: 500 })
+        console.error(`[POST /api/cart] ${error.message}`, { userId });
+        return NextResponse.json({ error: 'Failed to update cart' }, { status: 500 })
     }
 }
 
@@ -42,8 +42,8 @@ export async function GET(request) {
         })
         return NextResponse.json({ cart: user.cart }, { status: 200 })
     } catch (error) {
-        console.log(error);
-        return NextResponse.json({ message: 'Failed to fetch cart' }, { status: 500 })
+        console.error(`[GET /api/cart] ${error.message}`);
+        return NextResponse.json({ error: 'Failed to fetch cart' }, { status: 500 })
     }
 }
     
