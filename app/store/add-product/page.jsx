@@ -48,8 +48,7 @@ export default function StoreAddProduct() {
         const mimeType = file.type;
         const token = await getToken();
 
-        try {
-          await toast.promise(
+        await toast.promise(
             axios.post(
               "/api/store/ai",
               { base64Image, mimeType },
@@ -71,12 +70,10 @@ export default function StoreAddProduct() {
                   return "AI could not generate product data.";
                 }
               },
-              error: "Failed to analyze image.",
+              error: (err) =>
+                err?.response?.data?.message || "Failed to analyze image.",
             },
           );
-        } catch (error) {
-          toast.error("Failed to generate product data from AI.");
-        }
       };
     }
   };
