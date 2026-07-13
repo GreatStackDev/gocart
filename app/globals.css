@@ -1,22 +1,113 @@
 @import "tailwindcss";
 
-@layer components {
-    @keyframes marqueeScroll {
-        0% {
-            transform: translateX(0%);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
-    }
+/* ─────────────────────────────────────────────
+   tradrsAvenue — Design System
+   Flat colors only. Zero gradients.
+   ───────────────────────────────────────────── */
+
+:root {
+  /* Brand Colors */
+  --color-primary:       #1E1B4B;
+  --color-primary-light: #312E81;
+  --color-accent:        #F59E0B;
+  --color-accent-hover:  #D97706;
+  --color-accent-light:  #FEF3C7;
+
+  /* Neutrals */
+  --color-bg:      #FAFAF7;
+  --color-surface: #FFFFFF;
+  --color-text:    #111827;
+  --color-muted:   #6B7280;
+  --color-border:  #E5E7EB;
+
+  /* Semantic */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger:  #EF4444;
+
+  /* Supplemental surfaces */
+  --color-indigo-50: #EEF2FF;
+  --color-amber-50:  #FEF3C7;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Shadows — layered, no gradients */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Transition */
+  --transition-fast: 0.15s ease;
 }
+
+/* ─────────────────────────────────────────────
+   Base Resets
+   ───────────────────────────────────────────── */
 
 @layer base {
-    button {
-        cursor: pointer;
-    }
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-bg);
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* Focus ring — consistent across all interactive elements */
+  *:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
 }
 
+/* ─────────────────────────────────────────────
+   Utility Classes
+   ───────────────────────────────────────────── */
+
+/* Card hover lift — the ONLY hover animation we use */
+.card-hover {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Scrollbar hide utility */
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Skeleton shimmer — flat grey, no animation loop */
+.skeleton {
+  background-color: #F3F4F6;
+  border-radius: var(--radius-sm);
+}
+
+/* ─────────────────────────────────────────────
+   Marquee (kept for CategoriesMarquee — 
+   slow enough not to feel heavy)
+   ───────────────────────────────────────────── */
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marqueeScroll 30s linear infinite;
 }

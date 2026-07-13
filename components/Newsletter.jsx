@@ -1,13 +1,32 @@
 import React from 'react'
-import Title from './Title'
 
+/**
+ * tradrsAvenue — Newsletter Section
+ * Flat design, indigo background block.
+ */
 const Newsletter = () => {
     return (
-        <div className='flex flex-col items-center mx-4 my-36'>
-            <Title title="Join Newsletter" description="Subscribe to get exclusive deals, new arrivals, and insider updates delivered straight to your inbox every week." visibleButton={false} />
-            <div className='flex bg-slate-100 text-sm p-1 rounded-full w-full max-w-xl my-10 border-2 border-white ring ring-slate-200'>
-                <input className='flex-1 pl-5 outline-none' type="text" placeholder='Enter your email address' />
-                <button className='font-medium bg-green-500 text-white px-7 py-3 rounded-full hover:scale-103 active:scale-95 transition'>Get Updates</button>
+        <div className="mx-6 my-16">
+            <div className="max-w-2xl mx-auto bg-[#1E1B4B] rounded-[16px] px-8 py-12 text-center">
+                <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-white">
+                    Stay in the loop
+                </h2>
+                <p className="text-[#A5B4FC] text-sm mt-2 max-w-md mx-auto">
+                    Get exclusive deals, new vendor launches, and market updates — straight to your inbox.
+                </p>
+                <div className="flex bg-white rounded-[8px] p-1 w-full max-w-md mx-auto mt-6">
+                    <input
+                        className="flex-1 pl-4 text-sm outline-none text-[#111827] placeholder-[#9CA3AF] bg-transparent"
+                        type="email"
+                        placeholder="Enter your email address"
+                    />
+                    <button
+                        className="font-medium bg-[#F59E0B] text-white px-5 py-2.5 rounded-[6px] text-sm hover:bg-[#D97706] transition-all duration-150 hover:-translate-y-0.5 shrink-0"
+                    >
+                        Subscribe
+                    </button>
+                </div>
+                <p className="text-[#6B7280] text-xs mt-3">No spam. Unsubscribe anytime.</p>
             </div>
         </div>
     )

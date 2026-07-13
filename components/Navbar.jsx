@@ -1,10 +1,6 @@
 "use client";
-import {
-  PackageIcon,
-  Search,
-  ShoppingCart,
-  ShoppingCartIcon,
-} from "lucide-react";
+
+import { PackageIcon, Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,123 +8,109 @@ import { useSelector } from "react-redux";
 import { useUser, useClerk, UserButton, Show } from "@clerk/nextjs";
 
 const Navbar = () => {
-  const { user } = useUser();
-  const { openSignIn } = useClerk();
-  const router = useRouter();
+    const { user } = useUser();
+    const { openSignIn } = useClerk();
+    const router = useRouter();
 
-  const [search, setSearch] = useState("");
-  const cartCount = useSelector((state) => state.cart.total);
+    const [search, setSearch] = useState("");
+    const cartCount = useSelector((state) => state.cart.total);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    router.push(`/shop?search=${search}`);
-  };
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (search.trim()) router.push(`/shop?search=${search}`);
+    };
 
-  return (
-    <nav className="relative bg-white">
-      <div className="mx-6">
-        <div className="flex items-center justify-between max-w-7xl mx-auto py-4  transition-all">
-          <Link
-            href="/"
-            className="relative text-4xl font-semibold text-slate-700"
-          >
-            <span className="text-green-600">go</span>cart
-            <span className="text-green-600 text-5xl leading-0">.</span>
-            <Show when={{ plan: 'plus' }}>
-              <p className="absolute text-xs font-semibold -top-1 -right-8 px-3 p-0.5 rounded-full flex items-center gap-2 text-white bg-green-500">
-                plus
-              </p>
-            </Show>
-          </Link>
+    return (
+        <nav className="sticky top-0 z-50 bg-white border-b border-[#E5E7EB]">
+            <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between gap-4">
 
-          {/* Desktop Menu */}
-          <div className="hidden sm:flex items-center gap-4 lg:gap-8 text-slate-600">
-            <Link href="/">Home</Link>
-            <Link href="/shop">Shop</Link>
-            <Link href="/">About</Link>
-            <Link href="/">Contact</Link>
-            <form
-              onSubmit={handleSearch}
-              className="hidden xl:flex items-center w-xs text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full"
-            >
-              <Search size={18} className="text-slate-600" />
-              <input
-                className="w-full bg-transparent outline-none placeholder-slate-600"
-                type="text"
-                placeholder="Search products"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                required
-              />
-            </form>
-            <Link
-              href="/cart"
-              className="relative flex items-center gap-2 text-slate-600"
-            >
-              <ShoppingCart size={18} />
-              Cart
-              <button className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">
-                {cartCount}
-              </button>
-            </Link>
-            {!user ? (
-              <button
-                onClick={openSignIn}
-                className="px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full"
-              >
-                Login
-              </button>
-            ) : (
-              <UserButton>
-                <UserButton.MenuItems>
-                  <UserButton.Action
-                    labelIcon={<PackageIcon size={16} />}
-                    label="My Orders"
-                    onClick={() => router.push("/orders")}
-                  />
-                </UserButton.MenuItems>
-              </UserButton>
-            )}
-          </div>
+                {/* Wordmark */}
+                <Link href="/" className="flex items-center gap-1 shrink-0">
+                    <span
+                        className="font-[family-name:var(--font-heading)] font-bold text-[22px] tracking-tight text-[#1E1B4B]"
+                    >
+                        tradrs
+                    </span>
+                    <span
+                        className="font-[family-name:var(--font-heading)] font-bold text-[22px] tracking-tight text-[#F59E0B]"
+                    >
+                        Avenue
+                    </span>
+                    <Show when={{ plan: "plus" }}>
+                        <span className="ml-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#1E1B4B] text-white uppercase tracking-wide">
+                            Plus
+                        </span>
+                    </Show>
+                </Link>
 
-          {/* Mobile User Button  */}
-          <div className="sm:hidden">
-            {user ? (
-              <div>
-                <UserButton>
-                  <UserButton.MenuItems>
-                    <UserButton.Action
-                      labelIcon={<ShoppingCart size={16} />}
-                      label="Cart"
-                      onClick={() => router.push("/cart")}
+                {/* Desktop nav links */}
+                <div className="hidden md:flex items-center gap-6 text-sm text-[#6B7280]">
+                    <Link href="/" className="hover:text-[#111827] transition-colors duration-150">Home</Link>
+                    <Link href="/shop" className="hover:text-[#111827] transition-colors duration-150">Shop</Link>
+                    <Link href="/pricing" className="hover:text-[#111827] transition-colors duration-150">Pricing</Link>
+                </div>
+
+                {/* Search bar — desktop */}
+                <form
+                    onSubmit={handleSearch}
+                    className="hidden xl:flex items-center gap-2 flex-1 max-w-xs bg-[#F3F4F6] px-3.5 py-2 rounded-[8px] text-sm"
+                >
+                    <Search size={15} className="text-[#9CA3AF] shrink-0" />
+                    <input
+                        className="w-full bg-transparent outline-none placeholder-[#9CA3AF] text-[#111827]"
+                        type="text"
+                        placeholder="Search products..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                     />
-                  </UserButton.MenuItems>
-                </UserButton>
+                </form>
 
-                <UserButton>
-                  <UserButton.MenuItems>
-                    <UserButton.Action
-                      labelIcon={<PackageIcon size={16} />}
-                      label="My Orders"
-                      onClick={() => router.push("/orders")}
-                    />
-                  </UserButton.MenuItems>
-                </UserButton>
-              </div>
-            ) : (
-              <button
-                onClick={openSignIn}
-                className="px-7 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-sm transition text-white rounded-full"
-              >
-                Login
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-      <hr className="border-gray-300" />
-    </nav>
-  );
+                {/* Right actions */}
+                <div className="flex items-center gap-3">
+                    {/* Cart */}
+                    <Link
+                        href="/cart"
+                        className="relative flex items-center gap-1.5 text-sm text-[#6B7280] hover:text-[#111827] transition-colors duration-150 p-2 rounded-[8px] hover:bg-[#F3F4F6]"
+                    >
+                        <ShoppingCart size={18} />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-0.5 -right-0.5 w-4 h-4 flex items-center justify-center text-[9px] font-bold text-white bg-[#1E1B4B] rounded-full">
+                                {cartCount}
+                            </span>
+                        )}
+                    </Link>
+
+                    {/* Start Selling CTA — only for non-sellers */}
+                    <Link
+                        href="/create-store"
+                        className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-[8px] bg-[#F59E0B] text-white hover:bg-[#D97706] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)]"
+                    >
+                        Start Selling
+                    </Link>
+
+                    {/* Auth */}
+                    {!user ? (
+                        <button
+                            onClick={openSignIn}
+                            className="px-4 py-2 text-sm font-medium rounded-[8px] border border-[#E5E7EB] bg-white text-[#111827] hover:bg-[#FAFAF7] transition-all duration-150 hover:-translate-y-0.5"
+                        >
+                            Sign In
+                        </button>
+                    ) : (
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Action
+                                    labelIcon={<PackageIcon size={15} />}
+                                    label="My Orders"
+                                    onClick={() => router.push("/orders")}
+                                />
+                            </UserButton.MenuItems>
+                        </UserButton>
+                    )}
+                </div>
+            </div>
+        </nav>
+    );
 };
 
 export default Navbar;

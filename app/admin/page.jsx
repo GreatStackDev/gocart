@@ -67,28 +67,28 @@ export default function AdminDashboard() {
   if (loading) return <Loading />;
 
   return (
-    <div className="text-slate-500">
-      <h1 className="text-2xl">
-        Admin <span className="text-slate-800 font-medium">Dashboard</span>
+    <div className="text-[#6B7280]">
+      <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-[#111827] mb-1">
+        Admin <span className="text-[#1E1B4B]">Dashboard</span>
       </h1>
+      <p className="text-sm text-[#9CA3AF] mb-6">Platform overview and performance metrics</p>
 
-      {/* Cards */}
-      <div className="flex flex-wrap gap-5 my-10 mt-4">
+      {/* KPI Cards */}
+      <div className="flex flex-wrap gap-4 mb-8">
         {dashboardCardsData.map((card, index) => (
           <div
             key={index}
-            className="flex items-center gap-10 border border-slate-200 p-3 px-6 rounded-lg"
+            className="flex items-center gap-5 bg-white border border-[#E5E7EB] rounded-[12px] p-4 px-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] min-w-[180px]"
           >
-            <div className="flex flex-col gap-3 text-xs">
-              <p>{card.title}</p>
-              <b className="text-2xl font-medium text-slate-700">
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-[#9CA3AF] font-medium">{card.title}</p>
+              <p className="font-[family-name:var(--font-heading)] font-bold text-2xl text-[#1E1B4B]">
                 {card.value}
-              </b>
+              </p>
             </div>
-            <card.icon
-              size={50}
-              className=" w-11 h-11 p-2.5 text-slate-400 bg-slate-100 rounded-full"
-            />
+            <div className="ml-auto w-10 h-10 flex items-center justify-center bg-[#EEF2FF] rounded-[10px]">
+              <card.icon size={20} className="text-[#1E1B4B]" />
+            </div>
           </div>
         ))}
       </div>

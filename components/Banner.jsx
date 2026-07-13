@@ -1,31 +1,47 @@
 'use client'
 import React from 'react'
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'
+import { XIcon } from 'lucide-react'
 
+/**
+ * tradrsAvenue — Announcement Banner
+ * Flat indigo background. No gradient.
+ */
 export default function Banner() {
-
-    const [isOpen, setIsOpen] = React.useState(true);
+    const [isOpen, setIsOpen] = React.useState(true)
 
     const handleClaim = () => {
-        setIsOpen(false);
-        toast.success('Coupon copied to clipboard!');
-        navigator.clipboard.writeText('NEW20');
-    };
+        setIsOpen(false)
+        navigator.clipboard.writeText('FIRST20')
+        toast.success('Coupon code FIRST20 copied!')
+    }
 
-    return isOpen && (
-        <div className="w-full px-6 py-1 font-medium text-sm text-white text-center bg-gradient-to-r from-violet-500 via-[#9938CA] to-[#E0724A]">
-            <div className='flex items-center justify-between max-w-7xl  mx-auto'>
-                <p>Get 20% OFF on Your First Order!</p>
-                <div className="flex items-center space-x-6">
-                    <button onClick={handleClaim} type="button" className="font-normal text-gray-800 bg-white px-7 py-2 rounded-full max-sm:hidden">Claim Offer</button>
-                    <button onClick={() => setIsOpen(false)} type="button" className="font-normal text-gray-800 py-2 rounded-full">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect y="12.532" width="17.498" height="2.1" rx="1.05" transform="rotate(-45.74 0 12.532)" fill="#fff" />
-                            <rect x="12.533" y="13.915" width="17.498" height="2.1" rx="1.05" transform="rotate(-135.74 12.533 13.915)" fill="#fff" />
-                        </svg>
+    if (!isOpen) return null
+
+    return (
+        <div className="w-full px-6 py-2 bg-[#1E1B4B] text-white text-sm font-medium">
+            <div className="flex items-center justify-between max-w-7xl mx-auto">
+                <p className="text-[#A5B4FC] text-xs hidden sm:block">🛍️ tradrsAvenue — South Africa&apos;s local marketplace</p>
+                <p className="text-center flex-1 sm:flex-none">
+                    Get <span className="text-[#F59E0B] font-bold">20% OFF</span> your first order — use code{' '}
+                    <span className="font-bold tracking-wide">FIRST20</span>
+                </p>
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={handleClaim}
+                        className="max-sm:hidden text-xs font-semibold px-4 py-1.5 bg-[#F59E0B] text-white rounded-[6px] hover:bg-[#D97706] transition-colors duration-150"
+                    >
+                        Copy Code
+                    </button>
+                    <button
+                        onClick={() => setIsOpen(false)}
+                        aria-label="Close banner"
+                        className="text-[#A5B4FC] hover:text-white transition-colors duration-150"
+                    >
+                        <XIcon size={14} />
                     </button>
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}

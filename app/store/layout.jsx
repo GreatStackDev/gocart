@@ -4,8 +4,8 @@ import { Show } from "@clerk/nextjs";
 
 
 export const metadata = {
-  title: "GoCart. - Store Dashboard",
-  description: "GoCart. - Store Dashboard",
+  title: "Seller Dashboard | tradrsAvenue",
+  description: "Manage your tradrsAvenue store, products, and orders.",
 };
 
 export default function RootAdminLayout({ children }) {
