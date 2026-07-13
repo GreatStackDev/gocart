@@ -127,6 +127,7 @@ enum OrderStatus {
 
 enum PaymentMethod {
     PAYFAST
+    STRIPE
     COD
 }
 
