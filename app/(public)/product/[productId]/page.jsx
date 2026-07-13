@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 // Generate Open Graph Metadata
 export async function generateMetadata({ params }) {
-    const { productId } = params;
+    const { productId } = await params;
 
     const product = await prisma.product.findUnique({
         where: { id: productId },
@@ -20,10 +20,10 @@ export async function generateMetadata({ params }) {
 
     return {
         title: `${product.name} | tradrsAvenue`,
-        description: product.description.substring(0, 160),
+        description: product.description ? product.description.substring(0, 160) : product.name,
         openGraph: {
             title: product.name,
-            description: product.description.substring(0, 160),
+            description: product.description ? product.description.substring(0, 160) : product.name,
             url: `${baseUrl}/product/${productId}`,
             siteName: "tradrsAvenue",
             images: [
@@ -40,14 +40,14 @@ export async function generateMetadata({ params }) {
         twitter: {
             card: "summary_large_image",
             title: product.name,
-            description: product.description.substring(0, 160),
+            description: product.description ? product.description.substring(0, 160) : product.name,
             images: [`${baseUrl}/api/og?productId=${productId}`],
         },
     };
 }
 
 export default async function Product({ params }) {
-    const { productId } = params;
+    const { productId } = await params;
 
     // Fetch product directly on the server for SEO and fast loading
     const product = await prisma.product.findUnique({
