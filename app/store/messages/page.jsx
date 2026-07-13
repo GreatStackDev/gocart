@@ -1,26 +1,26 @@
-import Card from "@/components/ui/Card"
-import Badge from "@/components/ui/Badge"
+'use client'
 
-export default function Page() {
+import { MessageSquareIcon } from "lucide-react"
+
+export default function StoreMessagesPage() {
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 h-full flex flex-col">
             <div>
                 <h1 className="text-2xl font-[family-name:var(--font-heading)] font-bold text-[#1E1B4B]">
-                    Customer Chat
+                    Messages
                 </h1>
-                <p className="text-sm text-[#6B7280] mt-1">Manage your customer chat settings and configuration.</p>
+                <p className="text-sm text-[#6B7280] mt-1">Communicate directly with your buyers regarding their orders.</p>
             </div>
 
-            <Card className="p-12 flex flex-col items-center justify-center text-center space-y-4">
-                <div className="w-16 h-16 bg-[#EEF2FF] rounded-full flex items-center justify-center text-[#1E1B4B] mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
+            <div className="flex-1 flex items-center justify-center bg-white border border-gray-100 rounded-xl min-h-[400px]">
+                <div className="text-center flex flex-col items-center">
+                    <MessageSquareIcon className="w-12 h-12 text-[#9CA3AF] mb-4" />
+                    <h2 className="text-[#1E1B4B] font-semibold text-lg">Chat System Coming Soon</h2>
+                    <p className="text-[#6B7280] mt-1 text-sm max-w-sm">
+                        The real-time messaging system is currently under development. You will soon be able to chat directly with buyers here.
+                    </p>
                 </div>
-                <h2 className="text-xl font-semibold text-[#111827]">Coming Soon</h2>
-                <p className="text-[#6B7280] max-w-md">
-                    This module is currently under development. It will be available in an upcoming phase of the platform update.
-                </p>
-                <Badge variant="warning">Phase Work In Progress</Badge>
-            </Card>
+            </div>
         </div>
     )
 }

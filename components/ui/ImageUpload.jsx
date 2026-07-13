@@ -12,7 +12,7 @@ const authenticator = async () => {
         const response = await fetch('/api/imagekit/auth');
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(/`Request failed with status \${response.status}: \${errorText}\`/);
+            throw new Error(`Request failed with status ${response.status}: ${errorText}`);
         }
         const data = await response.json();
         const { signature, expire, token } = data;
@@ -82,7 +82,7 @@ export default function ImageUpload({
                         relative flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-[12px] transition-all cursor-pointer overflow-hidden
                         ${previewUrl ? 'border-[#1E1B4B] bg-[#F9FAFB]' : 'border-[#E5E7EB] hover:border-[#F59E0B] hover:bg-[#FEF3C7]/20'}
                         ${uploading ? 'opacity-50 cursor-not-allowed' : ''}
-                    \`}
+                    `}
                 >
                     {/* Hidden actual file input */}
                     <div className="hidden">
