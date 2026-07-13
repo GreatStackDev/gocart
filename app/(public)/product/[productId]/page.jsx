@@ -1,42 +1,77 @@
-'use client'
 import ProductDescription from "@/components/ProductDescription";
 import ProductDetails from "@/components/ProductDetails";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
 
-export default function Product() {
+// Generate Open Graph Metadata
+export async function generateMetadata({ params }) {
+    const { productId } = params;
 
-    const { productId } = useParams();
-    const [product, setProduct] = useState();
-    const products = useSelector(state => state.product.list);
+    const product = await prisma.product.findUnique({
+        where: { id: productId },
+        include: { store: true },
+    });
 
-    const fetchProduct = async () => {
-        const product = products.find((product) => product.id === productId);
-        setProduct(product);
+    if (!product) {
+        return { title: "Product Not Found" };
     }
 
-    useEffect(() => {
-        if (products.length > 0) {
-            fetchProduct()
-        }
-        scrollTo(0, 0)
-    }, [productId,products]);
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://tradrsavenue.co.za";
+
+    return {
+        title: `${product.name} | tradrsAvenue`,
+        description: product.description.substring(0, 160),
+        openGraph: {
+            title: product.name,
+            description: product.description.substring(0, 160),
+            url: `${baseUrl}/product/${productId}`,
+            siteName: "tradrsAvenue",
+            images: [
+                {
+                    url: `${baseUrl}/api/og?productId=${productId}`,
+                    width: 1200,
+                    height: 630,
+                    alt: product.name,
+                }
+            ],
+            locale: "en_ZA",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: product.name,
+            description: product.description.substring(0, 160),
+            images: [`${baseUrl}/api/og?productId=${productId}`],
+        },
+    };
+}
+
+export default async function Product({ params }) {
+    const { productId } = params;
+
+    // Fetch product directly on the server for SEO and fast loading
+    const product = await prisma.product.findUnique({
+        where: { id: productId },
+        include: { store: true },
+    });
+
+    if (!product) {
+        return notFound();
+    }
 
     return (
         <div className="mx-6">
             <div className="max-w-7xl mx-auto">
-
-                {/* Breadcrums */}
-                <div className="  text-gray-600 text-sm mt-8 mb-5">
-                    Home / Products / {product?.category}
+                {/* Breadcrumbs */}
+                <div className="text-gray-600 text-sm mt-8 mb-5">
+                    Home / Products / {product.category}
                 </div>
 
                 {/* Product Details */}
-                {product && (<ProductDetails product={product} />)}
+                <ProductDetails product={product} />
 
                 {/* Description & Reviews */}
-                {product && (<ProductDescription product={product} />)}
+                <ProductDescription product={product} />
             </div>
         </div>
     );
