@@ -11,8 +11,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import prisma from "@/lib/prisma";
-import { authSeller } from "@/middlewares/authSeller";
-import { authUser } from "@/middlewares/authUser";
+import { getAuth } from "@clerk/nextjs/server";
 
 // ── PayFast config (from .env) ────────────────────────────────────────────────
 const PF_MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID;
@@ -46,7 +45,7 @@ function buildSignature(data, passphrase = "") {
 
 export async function POST(request) {
     try {
-        const { userId } = await authUser(request);
+        const { userId } = getAuth(request);
         if (!userId) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
         }

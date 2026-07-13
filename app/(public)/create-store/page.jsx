@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Card } from "@/components/ui/Card";
+import Card from "@/components/ui/Card";
 import ImageUpload from "@/components/ui/ImageUpload";
 import { CheckCircleIcon, ArrowRightIcon, ArrowLeftIcon, StoreIcon, UserIcon, ShieldCheckIcon } from "lucide-react";
 
