@@ -1,12 +1,15 @@
 generator client {
-    provider        = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
     provider = "postgresql"
 }
 
-// Required for creating a User: id, name, email, image, cart (optional JSON string)
+// ─────────────────────────────────────────────────────────────────────────────
+// USER
+// Required for creating: id, name, email, image
+// ─────────────────────────────────────────────────────────────────────────────
 model User {
     id    String @id
     name  String
@@ -15,13 +18,79 @@ model User {
     cart  Json   @default("{}")
 
     // Relations
-    ratings     Rating[]
-    Address     Address[]
-    store       Store?
-    buyerOrders Order[]   @relation("BuyerRelation")
+    ratings           Rating[]
+    Address           Address[]
+    store             Store?
+    buyerOrders       Order[]        @relation("BuyerRelation")
+    buyerConversations Conversation[] @relation("BuyerConversations")
+    sentMessages      Message[]      @relation("MessageSender")
 }
 
-// Required for creating a Product: name, description, mrp, price, images, category, storeId
+// ─────────────────────────────────────────────────────────────────────────────
+// STORE
+// Required for creating: userId, name, username, email, contact, logo, description, address
+// ─────────────────────────────────────────────────────────────────────────────
+model Store {
+    id          String   @id @default(cuid())
+    userId      String   @unique
+    name        String
+    description String
+    username    String   @unique
+    address     String
+    city        String   @default("")
+    province    String   @default("")
+
+    // Status
+    status      String   @default("pending")   // pending | approved | rejected
+    isActive    Boolean  @default(false)
+
+    // Media
+    logo        String
+    bannerImage String?
+
+    // Contact
+    email       String
+    contact     String
+
+    // Verification — SA ID only, no business docs
+    verificationStatus String    @default("unverified") // unverified | verified
+    idDocUrl           String?                          // ImageKit URL of SA ID photo
+    selfieUrl          String?                          // optional selfie with ID
+    verifiedAt         DateTime?
+
+    // Plan
+    plan         String  @default("free")     // free | pro
+    freeShipping Boolean @default(false)
+
+    // Seller-defined custom categories (stored as array)
+    categories   String[]
+
+    // FAQ widget items — seller-written Q&A pairs
+    // Format: [{ "q": "question", "a": "answer" }, ...]
+    faqItems     Json    @default("[]")
+
+    // Analytics (denormalised for fast reads)
+    totalSales   Float   @default(0)
+    totalOrders  Int     @default(0)
+    rating       Float   @default(0)
+
+    // Timestamps
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    // Relations
+    Product             Product[]
+    Order               Order[]
+    user                User                  @relation(fields: [userId], references: [id])
+    conversations       Conversation[]
+    VerificationRequest VerificationRequest?
+    SocialShareLink     SocialShareLink[]
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PRODUCT
+// Required for creating: name, description, mrp, price, images, category, storeId
+// ─────────────────────────────────────────────────────────────────────────────
 model Product {
     id          String   @id @default(cuid())
     name        String
@@ -32,28 +101,39 @@ model Product {
     category    String
     inStock     Boolean  @default(true)
     storeId     String
+    weightKg    Float?                         // used for shipping calculation
+    variants    Json?                          // { "sizes": [], "colors": [] }
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
     // Relations
-    store      Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
-    orderItems OrderItem[]
-    rating     Rating[]
+    store           Store             @relation(fields: [storeId], references: [id], onDelete: Cascade)
+    orderItems      OrderItem[]
+    rating          Rating[]
+    SocialShareLink SocialShareLink[]
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ORDER STATUS & PAYMENT ENUMS
+// ─────────────────────────────────────────────────────────────────────────────
 enum OrderStatus {
     ORDER_PLACED
     PROCESSING
     SHIPPED
     DELIVERED
+    DISPUTED
+    REFUNDED
 }
 
 enum PaymentMethod {
+    PAYFAST
     COD
-    STRIPE
 }
 
-// Required for creating an Order: total, userId, storeId, addressId, isPaid, paymentMethod, isCouponUsed, coupon (JSON), orderItems (nested)
+// ─────────────────────────────────────────────────────────────────────────────
+// ORDER — includes escrow state machine
+// Required for creating: total, userId, storeId, addressId, isPaid, paymentMethod, isCouponUsed, coupon, orderItems
+// ─────────────────────────────────────────────────────────────────────────────
 model Order {
     id            String        @id @default(cuid())
     total         Float
@@ -67,29 +147,49 @@ model Order {
     updatedAt     DateTime      @updatedAt
     isCouponUsed  Boolean       @default(false)
     coupon        Json          @default("{}")
+
+    // ── Escrow ───────────────────────────────────────────────────────────────
+    // held     → buyer paid, money held on platform
+    // released → buyer confirmed OR auto-release fired after 7 days
+    // refunded → dispute resolved in buyer's favour
+    // disputed → buyer opened dispute, admin reviewing
+    escrowStatus     String    @default("held")  // held | released | refunded | disputed
+    escrowReleasedAt DateTime?
+    buyerConfirmedAt DateTime?
+    autoReleaseAt    DateTime?                   // set to createdAt + 7 days when DELIVERED
+    disputeReason    String?
+    trackingNumber   String?
+
+    // ── PayFast ───────────────────────────────────────────────────────────────
+    payfastPaymentId String?                     // m_payment_id from PayFast ITN
+
     orderItems    OrderItem[]
 
     // Relations
-    user    User    @relation("BuyerRelation", fields: [userId], references: [id])
-    store   Store   @relation(fields: [storeId], references: [id])
-    address Address @relation(fields: [addressId], references: [id])
+    user         User         @relation("BuyerRelation", fields: [userId], references: [id])
+    store        Store        @relation(fields: [storeId], references: [id])
+    address      Address      @relation(fields: [addressId], references: [id])
+    conversation Conversation?
 }
 
-// Required for creating an OrderItem: orderId, productId, quantity, price
+// ─────────────────────────────────────────────────────────────────────────────
+// ORDER ITEM
+// ─────────────────────────────────────────────────────────────────────────────
 model OrderItem {
     orderId   String
     productId String
     quantity  Int
     price     Float
 
-    // Relations
     order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     product Product @relation(fields: [productId], references: [id])
 
     @@id([orderId, productId])
 }
 
-// Required for creating a Rating: rating, review, userId, productId
+// ─────────────────────────────────────────────────────────────────────────────
+// RATING — only shown after escrowStatus = "released"
+// ─────────────────────────────────────────────────────────────────────────────
 model Rating {
     id        String   @id @default(cuid())
     rating    Int
@@ -100,14 +200,15 @@ model Rating {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    // Relations
     user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     @@unique([userId, productId, orderId])
 }
 
-// Required for creating an Address: userId, name, email, street, city, state, zip, country, phone
+// ─────────────────────────────────────────────────────────────────────────────
+// ADDRESS
+// ─────────────────────────────────────────────────────────────────────────────
 model Address {
     id        String   @id @default(cuid())
     userId    String
@@ -121,12 +222,13 @@ model Address {
     phone     String
     createdAt DateTime @default(now())
 
-    // Relations
     Order Order[]
     user  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Required for creating a Coupon: code, description, discount, forNewUser, isPublic, expiresAt
+// ─────────────────────────────────────────────────────────────────────────────
+// COUPON
+// ─────────────────────────────────────────────────────────────────────────────
 model Coupon {
     code        String   @id
     description String
@@ -138,23 +240,63 @@ model Coupon {
     createdAt   DateTime @default(now())
 }
 
-// Required for creating a Store: userId, name, username, email, contact, logo, description, address (optional: , status, isActive)
-model Store {
-    id          String   @id @default(cuid())
-    userId      String   @unique
-    name        String
-    description String
-    username    String   @unique
-    address     String
-    status      String   @default("pending")
-    isActive    Boolean  @default(false)
-    logo        String
-    email       String
-    contact     String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+// ─────────────────────────────────────────────────────────────────────────────
+// IN-APP CHAT — post-purchase only (one conversation per order)
+// ─────────────────────────────────────────────────────────────────────────────
+model Conversation {
+    id        String    @id @default(cuid())
+    orderId   String    @unique             // 1 conversation per order
+    buyerId   String
+    storeId   String
+    createdAt DateTime  @default(now())
 
-    Product Product[]
-    Order   Order[]
-    user    User      @relation(fields: [userId], references: [id])
+    messages  Message[]
+    buyer     User      @relation("BuyerConversations", fields: [buyerId], references: [id])
+    store     Store     @relation(fields: [storeId], references: [id])
+    order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+    id             String       @id @default(cuid())
+    conversationId String
+    senderId       String
+    body           String
+    isRead         Boolean      @default(false)
+    createdAt      DateTime     @default(now())
+
+    conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    sender         User         @relation("MessageSender", fields: [senderId], references: [id])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VERIFICATION — SA informal sellers, ID photo only
+// ─────────────────────────────────────────────────────────────────────────────
+model VerificationRequest {
+    id          String   @id @default(cuid())
+    storeId     String   @unique
+    idDocUrl    String                        // SA ID card photo (ImageKit URL)
+    selfieUrl   String?                       // optional selfie holding ID
+    status      String   @default("pending")  // pending | approved | rejected
+    reviewNote  String?
+    submittedAt DateTime @default(now())
+    reviewedAt  DateTime?
+
+    store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SOCIAL SHARE LINKS — generated per product, per platform
+// ─────────────────────────────────────────────────────────────────────────────
+model SocialShareLink {
+    id         String   @id @default(cuid())
+    productId  String
+    storeId    String
+    platform   String                          // facebook|twitter|instagram|whatsapp|tiktok
+    shareUrl   String
+    ogImageUrl String
+    clicks     Int      @default(0)
+    createdAt  DateTime @default(now())
+
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+    store   Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
 }
