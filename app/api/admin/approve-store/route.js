@@ -21,26 +21,28 @@ export async function POST(request) {
 
         const { storeId, status } = await request.json()
 
-        if ( status === 'approved') {
-            await prisma.store.update({
-                where: {
-                    id: storeId,
-                },
-                data: {
-                    status: 'approved',
-                    isActive: true,
-                },
-            })
-        } else if( status === 'rejected') {
-            await prisma.store.update({
-                where: {
-                    id: storeId,
-                },
-                data: {
-                    status: 'rejected',
-                    isActive: false,
-                },
-            })
+        if (status === 'approved') {
+            await prisma.$transaction([
+                prisma.store.update({
+                    where: { id: storeId },
+                    data: { status: 'approved', isActive: true },
+                }),
+                prisma.verificationRequest.update({
+                    where: { storeId: storeId },
+                    data: { status: 'approved', reviewedAt: new Date() },
+                })
+            ]);
+        } else if (status === 'rejected') {
+            await prisma.$transaction([
+                prisma.store.update({
+                    where: { id: storeId },
+                    data: { status: 'rejected', isActive: false },
+                }),
+                prisma.verificationRequest.update({
+                    where: { storeId: storeId },
+                    data: { status: 'rejected', reviewedAt: new Date() },
+                })
+            ]);
         }
 
         return NextResponse.json({

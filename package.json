@@ -19,6 +19,7 @@
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "imagekit": "^6.0.0",
+    "imagekitio-react": "^4.3.0",
     "inngest": "^4.11.0",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
