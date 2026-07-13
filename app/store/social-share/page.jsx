@@ -5,7 +5,7 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import { useUser, useAuth } from "@clerk/nextjs"
 import Loading from "@/components/Loading"
-import { LinkIcon, Share2Icon, CopyIcon, FacebookIcon } from "lucide-react"
+import { LinkIcon, Share2Icon, Copy, Facebook } from "lucide-react"
 
 export default function SocialSharePage() {
     const { user } = useUser()
@@ -99,7 +99,7 @@ export default function SocialSharePage() {
                                         onClick={() => shareToFacebook(product)}
                                         className="flex-1 flex items-center justify-center gap-2 py-2 bg-[#1877F2] hover:bg-[#166fe5] text-white rounded-lg text-sm transition-colors"
                                     >
-                                        <FacebookIcon className="w-4 h-4" /> Facebook
+                                        <Facebook className="w-4 h-4" /> Facebook
                                     </button>
                                 </div>
                             </div>
