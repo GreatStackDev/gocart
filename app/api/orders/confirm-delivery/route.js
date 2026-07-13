@@ -1,82 +1,52 @@
-/**
- * tradrsAvenue — Confirm Delivery (Escrow Release)
- * POST /api/orders/confirm-delivery
- *
- * Buyer clicks "I received my order" → escrow released to seller.
- * Only allowed when:
- *   - Order status is DELIVERED
- *   - escrowStatus is "held"
- *   - caller is the buyer of this order
- */
-
+import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { inngest } from "@/inngest/client";
-import { auth } from "@clerk/nextjs/server";
 
 export async function POST(request) {
     try {
-        const { userId } = await auth();
-        if (!userId) {
-            return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
-        }
+        const { userId } = getAuth(request);
+        if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
         const { orderId } = await request.json();
+        
         if (!orderId) {
-            return NextResponse.json({ error: "orderId is required" }, { status: 400 });
+            return NextResponse.json({ error: "Order ID required" }, { status: 400 });
         }
 
         const order = await prisma.order.findUnique({ where: { id: orderId } });
-
-        if (!order) {
-            return NextResponse.json({ error: "Order not found" }, { status: 404 });
+        
+        if (!order || order.userId !== userId) {
+            return NextResponse.json({ error: "Invalid order" }, { status: 400 });
         }
 
-        // Security: only the buyer can confirm their own order
-        if (order.userId !== userId) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        if (order.status !== 'DELIVERED') {
+            return NextResponse.json({ error: "Order must be marked as DELIVERED before confirming" }, { status: 400 });
         }
 
-        // Validate escrow state
-        if (order.escrowStatus !== "held") {
-            return NextResponse.json(
-                { error: `Escrow is already ${order.escrowStatus}` },
-                { status: 400 }
-            );
+        if (order.escrowStatus !== 'held') {
+            return NextResponse.json({ error: `Funds already ${order.escrowStatus}` }, { status: 400 });
         }
 
-        if (order.status !== "DELIVERED") {
-            return NextResponse.json(
-                { error: "Order must be DELIVERED before you can confirm receipt" },
-                { status: 400 }
-            );
-        }
-
-        const now = new Date();
-
-        // Release escrow
-        await prisma.order.update({
+        const updatedOrder = await prisma.order.update({
             where: { id: orderId },
             data: {
-                escrowStatus:    "released",
-                escrowReleasedAt: now,
-                buyerConfirmedAt: now,
-            },
+                escrowStatus: 'released',
+                buyerConfirmedAt: new Date(),
+                escrowReleasedAt: new Date()
+            }
         });
 
-        // Notify seller via Inngest
-        await inngest.send({
-            name:  "escrow/released",
-            data:  { orderId, storeId: order.storeId, confirmedByBuyer: true },
+        // Also update store analytics for totalSales
+        await prisma.store.update({
+            where: { id: order.storeId },
+            data: {
+                totalSales: { increment: order.total }
+            }
         });
 
-        return NextResponse.json({
-            success: true,
-            message: "Delivery confirmed. Funds released to seller.",
-        });
-
+        return NextResponse.json({ order: updatedOrder });
     } catch (error) {
-        console.error("[Confirm Delivery]", error);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+        console.error(`[POST /api/orders/confirm-delivery] ${error.message}`);
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

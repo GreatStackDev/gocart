@@ -25,6 +25,14 @@ export async function POST(request) {
       data: { status },
     });
 
+    if (status === 'DELIVERED') {
+      const { inngest } = await import("@/inngest/client");
+      await inngest.send({
+        name: "app/order.delivered",
+        data: { orderId }
+      });
+    }
+
     return NextResponse.json(
       { message: "Order updated successfully" },
       { status: 200 },

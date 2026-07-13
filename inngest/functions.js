@@ -58,7 +58,6 @@ export const syncUserDeletion = inngest.createFunction(
 );
 
 // inngest function to delete coupon on expiry
-
 export const deleteCouponOnExpiry = inngest.createFunction(
   {
     id: "delete-coupon-on-expiry",
@@ -77,4 +76,42 @@ export const deleteCouponOnExpiry = inngest.createFunction(
       });
     });
   },
+);
+
+// Escrow Auto-Release Logic
+export const autoReleaseEscrow = inngest.createFunction(
+  {
+    id: "auto-release-escrow",
+    triggers: [{ event: "app/order.delivered" }]
+  },
+  async ({ event, step }) => {
+    const { orderId } = event.data;
+
+    // Wait for 7 days
+    await step.sleep("wait-for-escrow", "7d");
+
+    // Check if the order is still "held"
+    await step.run("release-escrow-funds", async () => {
+      const order = await prisma.order.findUnique({ where: { id: orderId } });
+      
+      if (order && order.escrowStatus === "held") {
+        await prisma.order.update({
+          where: { id: orderId },
+          data: { 
+            escrowStatus: "released", 
+            escrowReleasedAt: new Date(),
+            autoReleaseAt: new Date()
+          }
+        });
+
+        // Update seller sales
+        await prisma.store.update({
+            where: { id: order.storeId },
+            data: {
+                totalSales: { increment: order.total }
+            }
+        });
+      }
+    });
+  }
 );
