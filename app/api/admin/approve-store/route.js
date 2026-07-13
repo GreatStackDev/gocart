@@ -19,7 +19,7 @@ export async function POST(request) {
             }, {status: 401})
         }
 
-        const { storeId, status } = await request.json()
+        const { storeId, status, reviewNote } = await request.json()
 
         if (status === 'approved') {
             await prisma.$transaction([
@@ -29,7 +29,7 @@ export async function POST(request) {
                 }),
                 prisma.verificationRequest.update({
                     where: { storeId: storeId },
-                    data: { status: 'approved', reviewedAt: new Date() },
+                    data: { status: 'approved', reviewedAt: new Date(), reviewNote: reviewNote || null },
                 })
             ]);
         } else if (status === 'rejected') {
@@ -40,7 +40,7 @@ export async function POST(request) {
                 }),
                 prisma.verificationRequest.update({
                     where: { storeId: storeId },
-                    data: { status: 'rejected', reviewedAt: new Date() },
+                    data: { status: 'rejected', reviewedAt: new Date(), reviewNote: reviewNote || null },
                 })
             ]);
         }
@@ -79,6 +79,7 @@ export async function GET(request) {
             },
             include: {
                 user: true,
+                VerificationRequest: true,
             },
         })
  

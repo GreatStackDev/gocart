@@ -28,13 +28,36 @@ const StoreInfo = ({store}) => {
             <p className="flex items-center gap-2"><Phone size={16} /> {store.contact}</p>
             <p className="flex items-center gap-2"><Mail size={16} />  {store.email}</p>
             <p className="text-slate-700 mt-5">Applied  on <span className="text-xs">{new Date(store.createdAt).toLocaleDateString()}</span> by</p>
-            <div className="flex items-center gap-2 text-sm ">
+            <div className="flex items-center gap-2 text-sm mt-5">
                 <Image width={36} height={36} src={store.user.image} alt={store.user.name} className="w-9 h-9 rounded-full" />
                 <div>
                     <p className="text-slate-600 font-medium">{store.user.name}</p>
                     <p className="text-slate-400">{store.user.email}</p>
                 </div>
             </div>
+
+            {/* Verification Request Document */}
+            {store.VerificationRequest?.idDocUrl && (
+                <div className="mt-5 pt-5 border-t border-gray-100">
+                    <p className="text-sm font-semibold text-[#1E1B4B] mb-3">Verification Document (SA ID)</p>
+                    <div className="relative group rounded-xl overflow-hidden border border-gray-200 cursor-pointer w-48 h-32" onClick={() => window.open(store.VerificationRequest.idDocUrl, '_blank')}>
+                        <Image 
+                            src={store.VerificationRequest.idDocUrl} 
+                            alt="ID Document" 
+                            fill
+                            className="object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="text-white text-xs font-medium">Click to enlarge</span>
+                        </div>
+                    </div>
+                    {store.VerificationRequest.reviewNote && (
+                        <div className="mt-3 p-3 bg-red-50 text-red-800 text-xs rounded-lg border border-red-100">
+                            <strong>Previous Rejection Note:</strong> {store.VerificationRequest.reviewNote}
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

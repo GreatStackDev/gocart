@@ -33,14 +33,13 @@ const AdminSidebar = () => {
             links: [
                 { name: "Stores", href: "/admin/stores", icon: StoreIcon },
                 { name: "Products", href: "/admin/products", icon: PackageIcon },
-                { name: "Approve Store", href: "/admin/approve", icon: ShieldCheckIcon },
+                { name: "Verifications & Approvals", href: "/admin/approve", icon: ShieldCheckIcon },
             ],
         },
         {
             label: "Users",
             links: [
                 { name: "All Users", href: "/admin/users", icon: UsersIcon },
-                { name: "Verification", href: "/admin/verification", icon: BadgeCheckIcon },
             ],
         },
         {
