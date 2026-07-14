@@ -1,28 +1,21 @@
 "use client";
 import ProductCard from "@/components/ProductCard";
-import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { MailIcon, MapPinIcon, Filter, X } from "lucide-react";
 import Loading from "@/components/Loading";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ShopSidebar from "@/components/ShopSidebar";
+import { useProductFilters } from "@/hooks/useProductFilters";
 
 export default function StoreShop() {
   const { username } = useParams();
-  const searchParams = useSearchParams();
-  const urlSearch = searchParams.get('search') || "";
 
   const [products, setProducts] = useState([]);
   const [storeInfo, setStoreInfo] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // Filter States
-  const [search, setSearch] = useState(urlSearch)
-  const [selectedCategories, setSelectedCategories] = useState([])
-  const [priceRange, setPriceRange] = useState({ min: "", max: "" })
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
   const fetchStoreData = async () => {
     try {
@@ -39,44 +32,21 @@ export default function StoreShop() {
     fetchStoreData();
   }, [username]);
 
-  // Extract unique categories
-  const categories = useMemo(() => {
-      const cats = new Set()
-      products.forEach(p => {
-          if (p.category) cats.add(p.category.toLowerCase())
-      })
-      return Array.from(cats)
-  }, [products])
-
-  // Filter products
-  const filteredProducts = useMemo(() => {
-      return products.filter(product => {
-          // Search filter
-          if (search && !product.name.toLowerCase().includes(search.toLowerCase()) && !product.description.toLowerCase().includes(search.toLowerCase())) {
-              return false
-          }
-          
-          // Category filter
-          if (selectedCategories.length > 0) {
-              if (!product.category || !selectedCategories.includes(product.category.toLowerCase())) {
-                  return false
-              }
-          }
-          
-          // Price filter
-          const price = product.price
-          if (priceRange.min && price < Number(priceRange.min)) return false
-          if (priceRange.max && price > Number(priceRange.max)) return false
-          
-          return true
-      })
-  }, [products, search, selectedCategories, priceRange])
-
-  const handleClearFilters = () => {
-      setSearch("")
-      setSelectedCategories([])
-      setPriceRange({ min: "", max: "" })
-  }
+  const {
+      filteredProducts,
+      categories,
+      filterState: {
+          search,
+          setSearch,
+          selectedCategories,
+          setSelectedCategories,
+          priceRange,
+          setPriceRange,
+          isMobileSidebarOpen,
+          setIsMobileSidebarOpen,
+      },
+      handleClearFilters
+  } = useProductFilters(products);
 
   return !loading ? (
     <div className="min-h-[70vh] mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">

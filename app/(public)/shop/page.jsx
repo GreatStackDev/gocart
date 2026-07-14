@@ -1,62 +1,31 @@
 'use client'
-import { Suspense, useState, useMemo } from "react"
+import { Suspense } from "react"
 import ProductCard from "@/components/ProductCard"
 import ShopSidebar from "@/components/ShopSidebar"
 import { MoveLeftIcon, Filter, X } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
+import { useProductFilters } from "@/hooks/useProductFilters"
 
 function ShopContent() {
-    const searchParams = useSearchParams()
-    const urlSearch = searchParams.get('search') || ""
     const router = useRouter()
-
     const products = useSelector(state => state.product.list) || []
 
-    // State for filters
-    const [search, setSearch] = useState(urlSearch)
-    const [selectedCategories, setSelectedCategories] = useState([])
-    const [priceRange, setPriceRange] = useState({ min: "", max: "" })
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
-
-    // Extract unique categories
-    const categories = useMemo(() => {
-        const cats = new Set()
-        products.forEach(p => {
-            if (p.category) cats.add(p.category.toLowerCase())
-        })
-        return Array.from(cats)
-    }, [products])
-
-    // Filter products
-    const filteredProducts = useMemo(() => {
-        return products.filter(product => {
-            // Search filter
-            if (search && !product.name.toLowerCase().includes(search.toLowerCase()) && !product.description.toLowerCase().includes(search.toLowerCase())) {
-                return false
-            }
-            
-            // Category filter
-            if (selectedCategories.length > 0) {
-                if (!product.category || !selectedCategories.includes(product.category.toLowerCase())) {
-                    return false
-                }
-            }
-            
-            // Price filter
-            const price = product.price
-            if (priceRange.min && price < Number(priceRange.min)) return false
-            if (priceRange.max && price > Number(priceRange.max)) return false
-            
-            return true
-        })
-    }, [products, search, selectedCategories, priceRange])
-
-    const handleClearFilters = () => {
-        setSearch("")
-        setSelectedCategories([])
-        setPriceRange({ min: "", max: "" })
-    }
+    const {
+        filteredProducts,
+        categories,
+        filterState: {
+            search,
+            setSearch,
+            selectedCategories,
+            setSelectedCategories,
+            priceRange,
+            setPriceRange,
+            isMobileSidebarOpen,
+            setIsMobileSidebarOpen,
+        },
+        handleClearFilters
+    } = useProductFilters(products)
 
     return (
         <div className="min-h-[70vh] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

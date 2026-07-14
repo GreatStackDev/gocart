@@ -9,6 +9,7 @@ export default function ShopSidebar({
   search,
   setSearch,
   onClearFilters,
+  currencySymbol = "R",
 }) {
   const handleCategoryToggle = (category) => {
     if (selectedCategories.includes(category)) {
@@ -40,6 +41,7 @@ export default function ShopSidebar({
           <div className="relative">
             <input
               type="text"
+              aria-label="Search products"
               placeholder="Search products..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -52,6 +54,7 @@ export default function ShopSidebar({
             {search && (
               <button
                 onClick={() => setSearch("")}
+                aria-label="Clear search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
               >
                 <X size={14} />
@@ -104,11 +107,12 @@ export default function ShopSidebar({
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">
-                R
+                {currencySymbol}
               </span>
               <input
                 type="number"
                 min="0"
+                aria-label="Minimum price"
                 placeholder="Min"
                 value={priceRange.min}
                 onChange={(e) =>
@@ -120,11 +124,12 @@ export default function ShopSidebar({
             <span className="text-slate-400">-</span>
             <div className="relative flex-1">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">
-                R
+                {currencySymbol}
               </span>
               <input
                 type="number"
                 min="0"
+                aria-label="Maximum price"
                 placeholder="Max"
                 value={priceRange.max}
                 onChange={(e) =>
