@@ -58,13 +58,8 @@ const AdminSidebar = () => {
 
     return (
         <div className="inline-flex h-full flex-col border-r border-[#E5E7EB] bg-white sm:min-w-[240px]">
-            {/* Brand + admin info */}
-            <div className="px-5 py-5 border-b border-[#E5E7EB] max-sm:hidden">
-                <Link href="/" className="flex items-center gap-1 mb-4">
-                    <span className="font-[family-name:var(--font-heading)] font-bold text-lg text-[#1E1B4B]">tradrs</span>
-                    <span className="font-[family-name:var(--font-heading)] font-bold text-lg text-[#F59E0B]">Avenue</span>
-                    <span className="ml-1 text-[9px] font-bold uppercase tracking-wider text-[#6B7280] bg-[#F3F4F6] px-1.5 py-0.5 rounded">Admin</span>
-                </Link>
+            {/* Admin user header — no wordmark, that's in the navbar */}
+            <div className="px-5 py-4 border-b border-[#E5E7EB] max-sm:hidden">
                 <div className="flex items-center gap-2.5">
                     <Image
                         className="w-8 h-8 rounded-full"

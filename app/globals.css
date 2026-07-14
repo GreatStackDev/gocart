@@ -53,10 +53,12 @@
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    zoom: 0.93;
   }
 
   body {
     background-color: var(--color-bg);
+    
   }
 
   button {

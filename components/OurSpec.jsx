@@ -11,8 +11,8 @@ const OurSpecs = () => {
         <div className="px-6 my-16 max-w-7xl mx-auto">
             <Title
                 visibleButton={false}
-                title="Why tradrsAvenue?"
-                description="We make buying and selling simple, secure, and local — built for South Africans."
+                title="Built around you."
+                description="Buying and selling made simple, secure, and local — for South Africans, by South Africans."
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">

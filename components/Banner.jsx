@@ -21,7 +21,7 @@ export default function Banner() {
     return (
         <div className="w-full px-6 py-2 bg-[#1E1B4B] text-white text-sm font-medium">
             <div className="flex items-center justify-between max-w-7xl mx-auto">
-                <p className="text-[#A5B4FC] text-xs hidden sm:block">🛍️ tradrsAvenue — South Africa&apos;s local marketplace</p>
+                <p className="text-[#A5B4FC] text-xs hidden sm:block">tradrsAvenue — South Africa&apos;s local marketplace</p>
                 <p className="text-center flex-1 sm:flex-none">
                     Get <span className="text-[#F59E0B] font-bold">20% OFF</span> your first order — use code{' '}
                     <span className="font-bold tracking-wide">FIRST20</span>

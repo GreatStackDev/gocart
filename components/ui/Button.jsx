@@ -48,7 +48,7 @@ export default function Button({
             {...props}
         >
             {loading ? (
-                <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <span className="tracking-widest text-sm leading-none opacity-70">···</span>
             ) : null}
             {children}
         </button>

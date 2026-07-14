@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { useAuth, useUser } from "@clerk/nextjs"
-import { SendIcon, XIcon, MessageSquareIcon } from "lucide-react"
+import { SendIcon, XIcon, MessageSquareIcon, Trash2Icon } from "lucide-react"
+import toast from "react-hot-toast"
 
-export default function ChatWidget({ orderId, conversationId, onClose, storeName, buyerName }) {
+export default function ChatWidget({ orderId, conversationId, onClose, storeName, buyerName, isAdmin = false }) {
     const { getToken } = useAuth()
     const { user } = useUser()
     const [messages, setMessages] = useState([])
@@ -51,6 +52,20 @@ export default function ChatWidget({ orderId, conversationId, onClose, storeName
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }, [messages])
 
+    const deleteMessage = async (messageId) => {
+        try {
+            const token = await getToken();
+            await axios.delete(`/api/messages?id=${messageId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setMessages(prev => prev.filter(m => m.id !== messageId));
+            toast.success("Message deleted");
+        } catch (error) {
+            console.error("Failed to delete message:", error);
+            toast.error("Failed to delete message");
+        }
+    };
+
     const sendMessage = async (e) => {
         e.preventDefault()
         if (!newMessage.trim()) return
@@ -60,6 +75,7 @@ export default function ChatWidget({ orderId, conversationId, onClose, storeName
             id: Date.now().toString(),
             body: newMessage,
             senderId: user.id,
+            sender: { name: user.firstName || "You" },
             createdAt: new Date().toISOString()
         }
         setMessages(prev => [...prev, tempMsg])
@@ -111,10 +127,31 @@ export default function ChatWidget({ orderId, conversationId, onClose, storeName
                 ) : (
                     messages.map((msg) => {
                         const isMe = msg.senderId === user?.id;
+                        const canDelete = isMe || isAdmin;
+                        const senderName = isMe ? "You" : msg.sender?.name || (isAdmin ? "Unknown" : (storeName || buyerName || "User"));
+                        const time = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
                         return (
-                            <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${isMe ? 'bg-[#F59E0B] text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none'}`}>
-                                    {msg.body}
+                            <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} group relative`}>
+                                <div className="text-[10px] text-gray-500 mb-1 px-1 flex items-center gap-1">
+                                    <span className="font-medium text-gray-700">{senderName}</span>
+                                    <span>•</span>
+                                    <span>{time}</span>
+                                </div>
+                                <div className="flex items-center gap-2 max-w-full">
+                                    {!isMe && canDelete && (
+                                        <button onClick={() => deleteMessage(msg.id)} className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:bg-red-50 rounded-full transition-all shrink-0">
+                                            <Trash2Icon className="w-3.5 h-3.5" />
+                                        </button>
+                                    )}
+                                    <div className={`max-w-[100%] break-words rounded-2xl px-4 py-2 text-sm ${isMe ? 'bg-[#F59E0B] text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none'}`}>
+                                        {msg.body}
+                                    </div>
+                                    {isMe && canDelete && (
+                                        <button onClick={() => deleteMessage(msg.id)} className="opacity-0 group-hover:opacity-100 p-1 text-red-500 hover:bg-red-50 rounded-full transition-all shrink-0">
+                                            <Trash2Icon className="w-3.5 h-3.5" />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         )

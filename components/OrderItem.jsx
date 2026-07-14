@@ -6,6 +6,7 @@ import Rating from "./Rating";
 import { useState } from "react";
 import RatingModal from "./RatingModal";
 import ChatWidget from "./ChatWidget";
+import { createPortal } from "react-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
@@ -144,7 +145,7 @@ const OrderItem = ({ order }) => {
             </tr>
 
             {/* Chat Modal */}
-            {showChat && (
+            {showChat && typeof document !== 'undefined' && createPortal(
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                     <div className="w-full max-w-md h-[500px]">
                         <ChatWidget 
@@ -153,7 +154,8 @@ const OrderItem = ({ order }) => {
                             onClose={() => setShowChat(false)} 
                         />
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     )

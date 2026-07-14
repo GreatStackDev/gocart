@@ -58,13 +58,9 @@ const StoreSidebar = ({ storeInfo }) => {
 
     return (
         <div className="inline-flex h-full flex-col border-r border-[#E5E7EB] bg-white sm:min-w-[240px]">
-            {/* Store info header */}
-            <div className="px-5 py-5 border-b border-[#E5E7EB] max-sm:hidden">
-                <Link href="/" className="flex items-center gap-1 mb-4">
-                    <span className="font-[family-name:var(--font-heading)] font-bold text-lg text-[#1E1B4B]">tradrs</span>
-                    <span className="font-[family-name:var(--font-heading)] font-bold text-lg text-[#F59E0B]">Avenue</span>
-                </Link>
-                {storeInfo && (
+            {/* Store info header — no wordmark, that's in the navbar */}
+            {storeInfo && (
+                <div className="px-5 py-4 border-b border-[#E5E7EB] max-sm:hidden">
                     <div className="flex items-center gap-2.5">
                         {storeInfo.logo && (
                             <Image
@@ -80,8 +76,8 @@ const StoreSidebar = ({ storeInfo }) => {
                             <p className="text-[10px] text-[#9CA3AF] capitalize">{storeInfo.plan || 'Free'} Plan</p>
                         </div>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
 
             {/* Nav groups */}
             <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">

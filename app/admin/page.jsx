@@ -67,34 +67,47 @@ export default function AdminDashboard() {
   if (loading) return <Loading />;
 
   return (
-    <div className="text-[#6B7280]">
-      <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-[#111827] mb-1">
-        Admin <span className="text-[#1E1B4B]">Dashboard</span>
-      </h1>
-      <p className="text-sm text-[#9CA3AF] mb-6">Platform overview and performance metrics</p>
+    <div className="pb-20">
+        {/* Page header */}
+        <div className="mb-8">
+            <h1 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-[#111827]">
+                Dashboard
+            </h1>
+            <p className="text-sm text-[#6B7280] mt-1">
+                Platform overview and performance metrics.
+            </p>
+        </div>
 
-      {/* KPI Cards */}
-      <div className="flex flex-wrap gap-4 mb-8">
-        {dashboardCardsData.map((card, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-5 bg-white border border-[#E5E7EB] rounded-[12px] p-4 px-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] min-w-[180px]"
-          >
-            <div className="flex flex-col gap-1">
-              <p className="text-xs text-[#9CA3AF] font-medium">{card.title}</p>
-              <p className="font-[family-name:var(--font-heading)] font-bold text-2xl text-[#1E1B4B]">
-                {card.value}
-              </p>
-            </div>
-            <div className="ml-auto w-10 h-10 flex items-center justify-center bg-[#EEF2FF] rounded-[10px]">
-              <card.icon size={20} className="text-[#1E1B4B]" />
-            </div>
-          </div>
-        ))}
-      </div>
+        {/* KPI Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {dashboardCardsData.map((card, index) => (
+                <div
+                    key={index}
+                    className="bg-white border border-[#E5E7EB] rounded-[12px] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex items-center justify-between gap-4"
+                >
+                    <div>
+                        <p className="text-xs text-[#6B7280] font-medium uppercase tracking-wider">{card.title}</p>
+                        <p className="font-[family-name:var(--font-heading)] font-bold text-2xl text-[#111827] mt-1">
+                            {card.value}
+                        </p>
+                    </div>
+                    <div className="w-10 h-10 flex items-center justify-center bg-[#EEF2FF] rounded-[10px] shrink-0">
+                        <card.icon size={18} className="text-[#1E1B4B]" />
+                    </div>
+                </div>
+            ))}
+        </div>
 
-      {/* Area Chart */}
-      <OrdersAreaChart allOrders={dashboardData.allOrders} />
+        {/* Revenue chart */}
+        <div>
+            <h2 className="font-[family-name:var(--font-heading)] font-semibold text-lg text-[#111827] mb-4">
+                Revenue over time
+            </h2>
+            <div className="bg-white border border-[#E5E7EB] rounded-[12px] shadow-[0_1px_3px_rgba(0,0,0,0.08)] p-5">
+                <OrdersAreaChart allOrders={dashboardData.allOrders} />
+            </div>
+        </div>
     </div>
+
   );
 }

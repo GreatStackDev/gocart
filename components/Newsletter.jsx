@@ -9,10 +9,10 @@ const Newsletter = () => {
         <div className="mx-6 my-16">
             <div className="max-w-2xl mx-auto bg-[#1E1B4B] rounded-[16px] px-8 py-12 text-center">
                 <h2 className="font-[family-name:var(--font-heading)] font-bold text-2xl text-white">
-                    Stay in the loop
+                    Don&apos;t miss a deal
                 </h2>
                 <p className="text-[#A5B4FC] text-sm mt-2 max-w-md mx-auto">
-                    Get exclusive deals, new vendor launches, and market updates — straight to your inbox.
+                    New vendors, price drops, and local market updates — delivered to your inbox.
                 </p>
                 <div className="flex bg-white rounded-[8px] p-1 w-full max-w-md mx-auto mt-6">
                     <input

@@ -1,18 +1,18 @@
 'use client'
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import Loading from "../Loading"
-import Link from "next/link"
-import { ArrowRightIcon } from "lucide-react"
+import Button from "../ui/Button"
 import SellerNavbar from "./StoreNavbar"
 import SellerSidebar from "./StoreSidebar"
-import { dummyStoreData } from "@/assets/assets"
 import { useAuth } from "@clerk/nextjs"
 import axios from "axios"
 
 
 const StoreLayout = ({ children }) => {
 
-    const {getToken} = useAuth()
+    const { getToken } = useAuth()
+    const router = useRouter()
 
 
     const [isSeller, setIsSeller] = useState(false)
@@ -57,10 +57,22 @@ const StoreLayout = ({ children }) => {
         </div>
     ) : (
         <div className="min-h-screen flex flex-col items-center justify-center text-center px-6">
-            <h1 className="text-2xl sm:text-4xl font-semibold text-slate-400">You are not authorized to access this page</h1>
-            <Link href="/" className="bg-slate-700 text-white flex items-center gap-2 mt-8 p-2 px-6 max-sm:text-sm rounded-full">
-                Go to home <ArrowRightIcon size={18} />
-            </Link>
+            <div className="bg-white border border-[#E5E7EB] rounded-[16px] shadow-[0_1px_3px_rgba(0,0,0,0.08)] p-10 max-w-sm w-full">
+                <h1 className="font-[family-name:var(--font-heading)] font-bold text-xl text-[#111827]">
+                    Sellers only
+                </h1>
+                <p className="text-sm text-[#6B7280] mt-2 leading-relaxed">
+                    This area is for approved sellers. Apply to open a store and you&apos;ll get access once approved.
+                </p>
+                <div className="flex flex-col gap-2 mt-6">
+                    <Button variant="accent" size="md" onClick={() => router.push("/create-store")}>
+                        Open a Store
+                    </Button>
+                    <Button variant="outline" size="md" onClick={() => router.push("/")}>
+                        Back to Home
+                    </Button>
+                </div>
+            </div>
         </div>
     )
 }

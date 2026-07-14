@@ -2,6 +2,9 @@
 import Link from 'next/link'
 import { ArrowRightIcon, TrendingUpIcon, StoreIcon } from 'lucide-react'
 import CategoriesMarquee from './CategoriesMarquee'
+import Image from 'next/image'
+import { assets, hero_dynamic_images } from '@/assets/assets'
+import { useState, useEffect } from 'react'
 
 /**
  * tradrsAvenue — Hero Section
@@ -10,6 +13,17 @@ import CategoriesMarquee from './CategoriesMarquee'
  * Hover: subtle lift (translateY(-2px) + shadow step up).
  */
 const Hero = () => {
+    const [img1, setImg1] = useState(assets.hero_product_img1)
+    const [img2, setImg2] = useState(assets.hero_product_img2)
+
+    useEffect(() => {
+        if (hero_dynamic_images && hero_dynamic_images.length >= 2) {
+            const shuffled = [...hero_dynamic_images].sort(() => 0.5 - Math.random())
+            setImg1(shuffled[0])
+            setImg2(shuffled[1])
+        }
+    }, [])
+
     return (
         <section className="px-6 pt-8 pb-4">
             <div className="max-w-7xl mx-auto">
@@ -58,9 +72,12 @@ const Hero = () => {
                             </div>
                         </div>
 
+                        {/* Image */}
+                        <Image className="sm:absolute bottom-0 right-0 md:right-10 w-full sm:max-w-sm pointer-events-none" src={assets.hero_model_img} alt="" />
+                        
                         {/* Decorative — flat, no gradient */}
-                        <div className="absolute bottom-0 right-0 w-52 h-52 rounded-full bg-white/5 -mr-16 -mb-16" />
-                        <div className="absolute top-0 right-16 w-32 h-32 rounded-full bg-[#F59E0B]/10 -mt-10" />
+                        <div className="absolute bottom-0 right-0 w-52 h-52 rounded-full bg-white/5 -mr-16 -mb-16 pointer-events-none" />
+                        <div className="absolute top-0 right-16 w-32 h-32 rounded-full bg-[#F59E0B]/10 -mt-10 pointer-events-none" />
                     </div>
 
                     {/* ── Side banners column ── */}
@@ -85,10 +102,8 @@ const Hero = () => {
                                     <ArrowRightIcon size={14} className="transition-transform duration-150 group-hover:translate-x-1" />
                                 </p>
                             </div>
-                            {/* Flat icon block */}
-                            <div className="w-16 h-16 bg-[#F59E0B] rounded-[12px] flex items-center justify-center shrink-0">
-                                <TrendingUpIcon size={28} className="text-white" />
-                            </div>
+                            {/* Product Image */}
+                            <Image className="w-35" src={img1} alt="" />
                         </Link>
 
                         {/* Side Banner 2 — Become a Seller */}
@@ -110,10 +125,8 @@ const Hero = () => {
                                     <ArrowRightIcon size={14} className="transition-transform duration-150 group-hover:translate-x-1" />
                                 </p>
                             </div>
-                            {/* Flat icon block */}
-                            <div className="w-16 h-16 bg-[#1E1B4B] rounded-[12px] flex items-center justify-center shrink-0">
-                                <StoreIcon size={28} className="text-white" />
-                            </div>
+                            {/* Product Image */}
+                            <Image className="w-35" src={img2} alt="" />
                         </Link>
 
                     </div>
