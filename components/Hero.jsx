@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 
 /**
  * tradrsAvenue — Hero Section
- * Preserves the 3-banner layout from gocart.
+ * Preserves the 3-banner layout from the original codebase.
  * Flat colors only — zero gradients.
  * Hover: subtle lift (translateY(-2px) + shadow step up).
  */

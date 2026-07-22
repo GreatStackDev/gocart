@@ -2,7 +2,7 @@
 
 ## Overview
 
-tradrsAvenue (built on the `gocart` codebase) is a multi-vendor, two-sided e-commerce marketplace. Sellers can create stores, manage inventory, and fulfill orders, while buyers can browse products, manage their carts, and securely check out. Platform administrators govern the ecosystem by approving stores and managing global promotions.
+tradrsAvenue is a multi-vendor, two-sided e-commerce marketplace. Sellers can create stores, manage inventory, and fulfill orders, while buyers can browse products, manage their carts, and securely check out. Platform administrators govern the ecosystem by approving stores and managing global promotions.
 
 ## Goals
 

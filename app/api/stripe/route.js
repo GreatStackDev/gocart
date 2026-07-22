@@ -22,7 +22,7 @@ export async function POST(request) {
 
       const { orderIds, userId, appId } = session.data[0].metadata;
 
-      if (appId !== "gocart") {
+      if (appId !== "tradrsavenue") {
         return NextResponse.json(
           { received: true, error: "unauthorized request" },
           { status: 400 },

@@ -1,0 +1,95 @@
+/**
+ * tradrsAvenue — Astryx Design Tokens (CSS Custom Properties Bridge)
+ *
+ * This file bridges the Astryx / StyleX token system into native CSS
+ * custom properties so that:
+ *   1. Existing Tailwind utility classes continue to work during migration.
+ *   2. Astryx-based StyleX components can reference the same tokens.
+ *   3. The design system has a single source of truth for all brand values.
+ *
+ * Import order: globals.css imports this file FIRST, before Tailwind
+ * directives, so that Tailwind can reference these variables.
+ *
+ * Usage in StyleX:
+ *   import * as tokens from '@/app/astryx-tokens.css';
+ *   const styles = stylex.create({ box: { color: tokens.colorPrimary } });
+ *
+ * Usage in Tailwind (via arbitrary values):
+ *   className="text-[var(--color-primary)]"
+ */
+
+:root {
+  /* ── Brand Primary ───────────────────────────────────────── */
+  --color-primary:        #1E1B4B;   /* Indigo 900 */
+  --color-primary-light:  #EEF2FF;   /* Indigo 50  */
+  --color-primary-dark:   #0F0D30;   /* Deep indigo */
+
+  /* ── Accent / CTA ────────────────────────────────────────── */
+  --color-accent:         #F59E0B;   /* Amber 400  */
+  --color-accent-light:   #FEF3C7;   /* Amber 50   */
+  --color-accent-dark:    #D97706;   /* Amber 600  */
+
+  /* ── Neutrals ────────────────────────────────────────────── */
+  --color-bg:             #FAFAF7;
+  --color-surface:        #FFFFFF;
+  --color-border:         #E5E7EB;   /* Gray 200   */
+
+  /* ── Text ────────────────────────────────────────────────── */
+  --color-text-primary:   #111827;   /* Gray 900   */
+  --color-text-secondary: #6B7280;   /* Gray 500   */
+  --color-text-muted:     #9CA3AF;   /* Gray 400   */
+
+  /* ── Semantic ────────────────────────────────────────────── */
+  --color-success:        #10B981;   /* Emerald 500 */
+  --color-warning:        #F59E0B;   /* Amber 400   */
+  --color-error:          #EF4444;   /* Red 500     */
+
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-heading:         'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:            'Inter', system-ui, sans-serif;
+
+  --text-xs:    11px;
+  --text-sm:    14px;
+  --text-base:  16px;
+  --text-lg:    18px;
+  --text-xl:    20px;
+  --text-2xl:   24px;
+  --text-3xl:   30px;
+  --text-4xl:   36px;
+  --text-5xl:   48px;
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --transition-fast:   100ms ease;
+  --transition-normal: 150ms ease;
+  --transition-slow:   300ms ease;
+
+  /* ── Z-Index Scale ───────────────────────────────────────── */
+  --z-dropdown:  100;
+  --z-modal:     200;
+  --z-toast:     300;
+  --z-tooltip:   400;
+}

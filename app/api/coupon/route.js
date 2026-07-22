@@ -41,7 +41,7 @@ export async function POST(request) {
       if (!hasPlusPlan) {
         console.info(`[POST /api/coupon] Coupon "${code}" rejected — not a Plus member`, { userId });
         return NextResponse.json(
-          { error: "This coupon is exclusive to GoCart Plus members" },
+          { error: "This coupon is exclusive to tradrsAvenue Plus members" },
           { status: 400 },
         );
       }

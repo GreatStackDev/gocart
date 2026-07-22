@@ -1,3 +1,9 @@
+/* ── Astryx Design Token Bridge ── */
+@import "./astryx-tokens.css";
+
+/* ── StyleX compiled atomic classes (injected by postcss-plugin) ── */
+@stylex;
+
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────

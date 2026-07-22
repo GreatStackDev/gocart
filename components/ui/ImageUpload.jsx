@@ -25,7 +25,7 @@ const authenticator = async () => {
 export default function ImageUpload({ 
     onSuccess, 
     onError, 
-    folder = "/gocart_uploads",
+    folder = "/tradrsavenue_uploads",
     buttonText = "Upload Image",
     className = ""
 }) {
