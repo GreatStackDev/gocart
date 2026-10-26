@@ -10,7 +10,7 @@ const Title = ({ title, description, visibleButton = true, href = '' }) => {
             <h2 className='text-2xl font-semibold text-slate-800'>{title}</h2>
             <Link href={href} className='flex items-center gap-5 text-sm text-slate-600 mt-2'>
                 <p className='max-w-lg text-center'>{description}</p>
-                {visibleButton && <button className='text-green-500 flex items-center gap-1'>View more <ArrowRight size={14} /></button>}
+                {visibleButton && <button className='text-orange-600 hover:text-orange-500 font-medium flex items-center gap-1 transition-colors'>View more <ArrowRight size={14} /></button>}
             </Link>
         </div>
     )

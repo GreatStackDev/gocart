@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none">
+  <defs>
+    <linearGradient id="ebuyGradient" x1="0" y1="0" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0891B2" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+    <filter id="ebuyShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#06B6D4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Brand Icon Badge -->
+  <g filter="url(#ebuyShadow)">
+    <rect x="2" y="3" width="38" height="38" rx="10" fill="url(#ebuyGradient)"/>
+    <!-- Modern Shopping Bag Shape -->
+    <path d="M15 14V12C15 9.79086 16.7909 8 19 8H23C25.2091 8 27 9.79086 27 12V14" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M12 14H30L28.2 28.4C28.09 29.3 27.32 30 26.4 30H15.6C14.68 30 13.91 29.3 13.8 28.4L12 14Z" fill="white" fill-opacity="0.18" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+    <!-- Stylized 'e' mark -->
+    <path d="M18 22H24C24 20.3 22.8 19 21 19C19.2 19 18 20.3 18 22C18 23.7 19.3 25 21.2 25C22.4 25 23.3 24.3 23.8 23.7" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Brand Text -->
+  <text x="49" y="31" font-family="Outfit, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="28" letter-spacing="-0.03em">
+    <tspan fill="#0891B2">e</tspan>
+    <tspan fill="#06B6D4">-</tspan>
+    <tspan fill="#334155">buy</tspan>
+    <tspan fill="#0891B2">.</tspan>
+  </text>
+</svg>

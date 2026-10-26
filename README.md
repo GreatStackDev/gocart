@@ -1,13 +1,23 @@
+# GoCart — e-buy
+
 <div align="center">
-  <h1><img src="https://gocart-gs.vercel.app/favicon.ico" width="20" height="20" alt="GoCart Favicon">
-   GoCart</h1>
+ 
   <p>
-    An open-source multi-vendor e-commerce platform built with Next.js and Tailwind CSS.
+    A Open-maintained fork of GoCart, an open-source multi-vendor e-commerce platform built with Next.js and Tailwind CSS.
   </p>
   <p>
-    <a href="https://github.com/GreatStackDev/goCart/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/GreatStackDev/goCart?style=for-the-badge" alt="License"></a>
-    <a href="https://github.com/GreatStackDev/goCart/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge" alt="PRs Welcome"></a>
-    <a href="https://github.com/GreatStackDev/goCart/issues"><img src="https://img.shields.io/github/issues/GreatStackDev/goCart?style=for-the-badge" alt="GitHub issues"></a>
+    <a href="https://github.com/GreatStackDev/goCart">
+      <img src="https://img.shields.io/badge/Original%20Project-GoCart-blue?style=for-the-badge" alt="Original Project" />
+    </a>
+    <a href="https://github.com/tola-san/e-buy">
+      <img src="https://img.shields.io/badge/Fork-e--buy-f54900?style=for-the-badge" alt="e-buy Repository" />
+    </a>
+    <a href="https://github.com/GreatStackDev/goCart/blob/main/LICENSE.md">
+      <img src="https://img.shields.io/github/license/GreatStackDev/goCart?style=for-the-badge" alt="License" />
+    </a>
+    <a href="https://github.com/tola-san/e-buy/issues">
+      <img src="https://img.shields.io/github/issues/tola-san/e-buy?style=for-the-badge" alt="GitHub Issues" />
+    </a>
   </p>
 </div>
 
@@ -15,71 +25,119 @@
 
 ## 📖 Table of Contents
 
-- [✨ Features](#-features)
-- [🛠️ Tech Stack](#-tech-stack)
-- [🚀 Getting Started](#-getting-started)
-- [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
+- [About](#-about)
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Getting Started](#-getting-started)
+- [Development Roadmap](#-development-roadmap)
+- [Contributing](#-contributing)
+- [Acknowledgements](#-acknowledgements)
+- [License](#-license)
 
 ---
 
-## Features
+## 📌 About
 
-- **Multi-Vendor Architecture:** Allows multiple vendors to register, manage their own products, and sell on a single platform.
-- **Customer-Facing Storefront:** A beautiful and responsive user interface for customers to browse and purchase products.
-- **Vendor Dashboards:** Dedicated dashboards for vendors to manage products, view sales analytics, and track orders.
-- **Admin Panel:** A comprehensive dashboard for platform administrators to oversee vendors, products, and commissions.
+**e-buy** is a community-maintained fork of [GoCart](https://github.com/GreatStackDev/goCart), originally developed by GreatStackDev.
 
-## 🛠️ Tech Stack <a name="-tech-stack"></a>
+This repository builds upon the original project with the goal of maintaining, learning from, and improving the codebase while exploring additional enhancements to the developer experience and application architecture.
+
+The original project deserves credit for providing the foundation of this work.
+
+## ✨ Features
+
+The following features originate from the upstream GoCart project. Their availability depends on the current state of the codebase.
+
+- **Multi-Vendor Architecture:** Supports multiple vendors operating on one e-commerce platform.
+- **Customer Storefront:** Responsive interface for browsing and purchasing products.
+- **Vendor Dashboards:** Tools for managing products, orders, and sales.
+- **Admin Panel:** Administrative tools for overseeing the platform.
+- **Modern Frontend:** Built with Next.js and Tailwind CSS.
+
+## 🛠️ Tech Stack
 
 - **Framework:** Next.js
+- **UI Library:** React
 - **Styling:** Tailwind CSS
-- **UI Components:** Lucide React for icons
+- **Icons:** Lucide React
 - **State Management:** Redux Toolkit
+- **Package Manager:** npm (recommended for this fork)
 
-## 🚀 Getting Started <a name="-getting-started"></a>
+## 🚀 Getting Started
 
-First, install the dependencies. We recommend using `npm` for this project.
+### Prerequisites
+
+- Node.js version compatible with the project's `package.json`
+- npm installed on your machine
+
+### Installation
+
+Clone this fork:
+
+```bash
+git clone https://github.com/tola-san/e-buy.git
+cd e-buy
+```
+
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-Then, run the development server:
+Start the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/(public)/page.js`. The page auto-updates as you edit the file.
+### Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Outfit](https://vercel.com/font), a new font family for Vercel.
+Check `package.json` for the scripts supported by the current project, including development, production build, and linting commands.
+
+## 🗺️ Development Roadmap
+
+Planned improvements for this fork may include:
+
+- [ ] Introduce TypeScript support incrementally.
+- [ ] Improve type safety and component maintainability.
+- [ ] Review and improve project documentation.
+- [ ] Keep the fork synchronized with upstream updates.
+- [ ] Improve accessibility and developer experience.
+
+Roadmap items are goals, not claims that these features have already been implemented.
+
+## 🤝 Contributing
+
+Contributions, suggestions, and bug reports are welcome.
+
+1. Fork this repository.
+2. Create a feature branch.
+3. Implement and test your changes.
+4. Submit a pull request with a clear description of the changes.
+
+For larger changes, open an issue first to discuss the proposed approach.
+
+## 🙏 Acknowledgements
+
+- **[GreatStackDev](https://github.com/GreatStackDev)** — Original GoCart project and codebase.
+- **[GoCart Repository](https://github.com/GreatStackDev/goCart)** — Original project source and inspiration.
+
+This fork is maintained independently and is not an official release of the original GoCart project.
+
+## 📜 License
+
+Please refer to the original project's [LICENSE.md](https://github.com/GreatStackDev/goCart/blob/main/LICENSE.md) and ensure that this fork complies with its terms.
+
+If you distribute this fork, preserve the original copyright notices and required license attribution.
 
 ---
 
-## 🤝 Contributing <a name="-contributing"></a>
+## 📚 Learn More
 
-We welcome contributions! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to get started.
-
----
-
-## 📜 License <a name="-license"></a>
-
-This project is licensed under the MIT License. See the [LICENSE.md](./LICENSE.md) file for details.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Original GoCart Repository](https://github.com/GreatStackDev/goCart)
